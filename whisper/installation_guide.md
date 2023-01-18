@@ -21,7 +21,8 @@
 
 - install libsndfile
 
-    ```pip install libsndfile1```
+    <!-- ```pip install libsndfile1``` -->
+    ```apt-get install -y libsndfile1-dev```
 
 - install sox, youtube-dl, ffmpeg
 
@@ -31,14 +32,15 @@
 
     ```conda install -c conda-forge ffmpeg```
 
-- install ESPnet
+<!-- 필수X -->
+<!-- - install ESPnet
 
     ```pip install espnet```
 
 - install ESPnet model zoo
 
-    ```pip install espnet_model_zoo```
+    ```pip install espnet_model_zoo``` -->
 
-- downloading pre-trained models 
+<!-- - downloading pre-trained models 
   
-   ```tools/download_mdl.sh```
+   ```tools/download_mdl.sh``` -->
