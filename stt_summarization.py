@@ -5,7 +5,7 @@ import os
 from typing import Iterator, TextIO
 
 from transformers import pipeline
-
+from riffusion.interpolation import Riffusion_interpolation
 import argparse
 
 
