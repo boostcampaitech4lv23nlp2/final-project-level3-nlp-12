@@ -6,14 +6,15 @@ import os
 from typing import Iterator, TextIO
 from transformers import pipeline
 from interpolation import Riffusion_interpolation
+from sum_by_sent import SentimentModel
 import argparse
 
-def test():
+def main():
     # setting
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="large", help="name of the Whisper model to use") 
     parser.add_argument("--input_audio_path",default="/opt/ml/input/final_test/dataset/")   # input 파일이 있는 경로(폴더)
-    parser.add_argument("--input_file",default="test02.wav")                                # input 파일명
+    parser.add_argument("--input_file",default="/opt/ml/input/code/final-project-level3-nlp-12/test01.wav")        # input 파일명
     parser.add_argument("--output_dir",default="/opt/ml/input/final_test/result")           # 결과 저장 경로
     args = parser.parse_args().__dict__ # args를 딕셔너리 형태로 -> args.pop(key)
 
@@ -27,21 +28,20 @@ def test():
     model = model.to(torch.device("cuda"))
     result = model.transcribe(input_file,fp16=False,language='English') 
     # 1-2. 전처리
+    
+    # 2. summary 실행 : print
     input_txt=''
     for line in result["segments"]:
         input_txt+=line['text']+'\n'
-    print(input_txt)
-    # 2. summary 실행 : print
-    #TODO 시간별로 나눠줄 sentiment anaylsis 추가
-    summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
-    r = summarizer(input_txt, max_length=130, min_length=30, do_sample=False)[0]['summary_text']
+    sentiment = SentimentModel(input_txt)
+    summarized_content = sentiment.run()
+    print(summarized_content)
     #TODO 감정 분류해주는 classifier 추가
     #sentiment = None
     #prompt_a = sen2prompt(sentiment1)
     #prompt_b = sen2prompt(sentiment2)
     #music = Riffusion_interpolation(prompt_a, prompt_b, num_inference_steps, num_interpolation_steps)
-    print(r)
 
 
 if __name__ == '__main__':
-    test()
+    main()
