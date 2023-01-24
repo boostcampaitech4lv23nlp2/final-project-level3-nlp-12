@@ -1,15 +1,19 @@
 import os
-from model import v2m_model
+import sys
 from fastapi import FastAPI, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+INPUT_DIR = os.path.join(BASE_DIR, 'serving/input')
+OUTPUT_DIR =os.path.join(BASE_DIR, 'serving/output')
+
+sys.path.append(BASE_DIR)
+from model import v2m_model
+
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-INPUT_DIR = os.path.join(BASE_DIR, 'input')
-OUTPUT_DIR =os.path.join(BASE_DIR, 'output/')
 
 @app.get("/")
 def main():
