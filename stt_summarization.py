@@ -29,18 +29,21 @@ def main():
     result = model.transcribe(input_file,fp16=False,language='English') 
     # 1-2. 전처리
     input_txt=''
+    timeline = []
     for line in result["segments"]:
         input_txt+=line['text']+'\n'
-    sentiment_task = SentimentModel(input_txt)
+        timeline.append([line['start'], line['end']])
+    sentiment_task = SentimentModel(input_txt, timeline)
     sentiments = sentiment_task.run()
+    print(sentiments)
 
-    for s in sentiments:
-        prompt, seed_images = sent2prompt(s[2])
-        width = (s[1]-s[0]) // 5 + 1
-        for i in range(4):
-            play_time = s[1]-s[0]
-            Riffusion_interpolation(prompt[i], prompt[i], seed_images[i], width)
-        break
+    # for s in sentiments:
+    #     prompt, seed_images = sent2prompt(s[2])
+    #     width = (s[1]-s[0]) // 5 + 1
+    #     for i in range(4):
+    #         play_time = s[1]-s[0]
+    #         Riffusion_interpolation(prompt[i], prompt[i], seed_images[i], width)
+    #     break
 
 
 
