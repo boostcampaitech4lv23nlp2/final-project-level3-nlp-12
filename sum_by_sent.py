@@ -75,6 +75,7 @@ class SentimentModel():
                     start = y[0]
             else:
                 if x != sentiment and x != 'neutral':
+                    print(y[0]-start)
                     if y[0] - start >= threshold:
                         contents.append([start, y[0], sentiment])
                     sentiment = x

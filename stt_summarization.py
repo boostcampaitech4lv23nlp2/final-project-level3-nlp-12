@@ -8,7 +8,7 @@ from transformers import pipeline
 from interpolation import Riffusion_interpolation
 from sum_by_sent import SentimentModel
 import argparse
-
+from utils import *
 def main():
     # setting
     parser = argparse.ArgumentParser()
@@ -31,12 +31,17 @@ def main():
     input_txt=''
     for line in result["segments"]:
         input_txt+=line['text']+'\n'
-    sentiment = SentimentModel(input_txt)
-    content = sentiment.run()
-    #TODO 감정 분류해주는 classifier 추가
-    #prompt_a = sen2prompt(sentiment1)
-    #prompt_b = sen2prompt(sentiment2)
-    #music = Riffusion_interpolation(prompt_a, prompt_b, num_inference_steps, num_interpolation_steps)
+    sentiment_task = SentimentModel(input_txt)
+    sentiments = sentiment_task.run()
+
+    for s in sentiments:
+        prompt, seed_images = sent2prompt(s[2])
+        width = (s[1]-s[0]) // 5 + 1
+        for i in range(4):
+            play_time = s[1]-s[0]
+            Riffusion_interpolation(prompt[i], prompt[i], seed_images[i], width)
+        break
+
 
 
 if __name__ == '__main__':
