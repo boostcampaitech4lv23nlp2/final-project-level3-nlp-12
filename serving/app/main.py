@@ -12,6 +12,11 @@ OUTPUT_DIR = os.path.join(BASE_DIR, "serving/output")
 # TODO: 다른 서버로 옮긴 후 모델을 실행하고, 다시 웹 서버로 받는 과정 필요
 # sys.path.append(BASE_DIR)
 # from model import v2m_model
+# TODO: STT - sentiment 모델 연결
+# TODO: 4개 output 선택지 버튼. 버튼 선택 - 해당 데이터를 local DB에서 가져오기
+############################################옵션#################################################
+# TODO: file name을 고유한 ID로 받기
+# TODO: DB 용량을 위해 하나의 서비스 끝나면 데이터 지워주기
 
 
 app = FastAPI()
