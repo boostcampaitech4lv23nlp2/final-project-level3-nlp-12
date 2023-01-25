@@ -1,3 +1,14 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info
+.pytest_cache
+.ipynb_checkpoints
+*.wav
+thumbs.db
+.DS_Store
+.idea
+
 serving_test/
 port_test/
 shell/
