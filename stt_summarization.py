@@ -28,16 +28,12 @@ def main():
     model = model.to(torch.device("cuda"))
     result = model.transcribe(input_file,fp16=False,language='English') 
     # 1-2. 전처리
-    
-    # 2. summary 실행 : print
     input_txt=''
     for line in result["segments"]:
         input_txt+=line['text']+'\n'
     sentiment = SentimentModel(input_txt)
-    summarized_content = sentiment.run()
-    print(summarized_content)
+    content = sentiment.run()
     #TODO 감정 분류해주는 classifier 추가
-    #sentiment = None
     #prompt_a = sen2prompt(sentiment1)
     #prompt_b = sen2prompt(sentiment2)
     #music = Riffusion_interpolation(prompt_a, prompt_b, num_inference_steps, num_interpolation_steps)
