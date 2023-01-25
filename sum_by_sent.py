@@ -58,7 +58,7 @@ class SentimentModel():
             sentiments.append(result[0]['label'])
         sentiment = None
         contents = []
-        threshold = 2
+        threshold = 5
         start = 0
         for x, y in zip(sentiments, self.time):
             if sentiment == None:
