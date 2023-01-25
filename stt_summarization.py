@@ -9,6 +9,9 @@ from interpolation import Riffusion_interpolation
 from sum_by_sent import SentimentModel
 import argparse
 from utils import *
+import pydub
+import numpy as np
+
 def main():
     # setting
     parser = argparse.ArgumentParser()
@@ -38,7 +41,17 @@ def main():
         prompt, seed_images = sent2prompt(s[2])
         width = (s[1]-s[0]) // 5 + 1
         for i in range(4):
-            play_time = s[1]-s[0]
+            duration_ms = s[1]-s[0]
+            segment = pydub.AudioSegment.from_file(audio)
+            output_dir_path = '#path'
+            extension = 'wav'
+
+            segment_duration_ms = int(segment.duration_seconds * 1000)
+            clip_start_ms = np.random.randint(0, segment_duration_ms - duration_ms)
+            clip = segment[clip_start_ms : clip_start_ms + duration_ms]
+            idx = 1
+            clip_path = os.path.join(output_dir_path, idx)
+            clip.export(clip_path, format=extension)
             Riffusion_interpolation(prompt[i], prompt[i], seed_images[i], width)
         break
 
