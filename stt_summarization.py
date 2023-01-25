@@ -42,7 +42,8 @@ def main():
         for i in range(4):
             play_time = s[1]-s[0]
 
-            Riffusion_interpolation(prompt[i], prompt[i], seed_images[i], width) # prompt와 seed image로 bgm 생성하고, 저장까지 진행
+            riffusion = Riffusion_interpolation(prompt[i], prompt[i], seed_images[i], width) # prompt와 seed image로 bgm 생성하고, 저장까지 진행
+            riffusion.run(i)
         break
 
 
