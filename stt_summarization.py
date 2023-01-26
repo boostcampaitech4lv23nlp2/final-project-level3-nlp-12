@@ -1,11 +1,11 @@
 import whisper
 import torch
 import sys
-sys.path.append('/opt/ml/input/code/final-project-level3-nlp-12/riffusion')
+sys.path.append('/opt/ml/input/final-project-level3-nlp-12/riffusion')
 import os
 from typing import Iterator, TextIO
 from transformers import pipeline
-from interpolation import Riffusion_interpolation
+from _interpolation import Riffusion_interpolation
 from sum_by_sent import SentimentModel
 import argparse
 from utils import *
@@ -19,7 +19,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="large", help="name of the Whisper model to use") 
     parser.add_argument("--input_audio_path",default="/opt/ml/input/final_test/dataset/")   # input 파일이 있는 경로(폴더)
-    parser.add_argument("--input_file",default="/opt/ml/input/code/final-project-level3-nlp-12/test01.wav")        # input 파일명
+    parser.add_argument("--input_file",default="/opt/ml/input/final-project-level3-nlp-12/test01.wav")        # input 파일명
     parser.add_argument("--output_dir",default="/opt/ml/input/final_test/result")           # 결과 저장 경로
     args = parser.parse_args().__dict__ # args를 딕셔너리 형태로 -> args.pop(key)
 
@@ -47,7 +47,7 @@ def main():
         for i in range(2):
             duration_ms = s[1]-s[0]
             segment = pydub.AudioSegment.from_file(seed_audio[i])
-            output_dir_path = f'/opt/ml/input/code/final-project-level3-nlp-12/riffusion/seed_images/{s[2]}'
+            output_dir_path = f'/opt/ml/input/final-project-level3-nlp-12/riffusion/seed_audios/{s[2]}'
             extension = 'wav'
 
             segment_duration_ms = int(segment.duration_seconds * 1000)
@@ -55,8 +55,8 @@ def main():
             clip = segment[clip_start_ms : clip_start_ms + segment_duration_ms]
             clip_path = os.path.join(output_dir_path, 'test'+str(i)+'.wav')
             clip.export(clip_path, format=extension)
-            seed_image = audio_to_image(audio=clip_path, image=f'/opt/ml/input/code/final-project-level3-nlp-12/riffusion/seed_images/{s[2]}.png')
-            
+            audio_to_image(audio=clip_path, image=f'/opt/ml/input/final-project-level3-nlp-12/riffusion/seed_images/{s[2]}.png')
+            seed_image = f'/opt/ml/input/final-project-level3-nlp-12/riffusion/seed_images/{s[2]}.png'
             riffusion = Riffusion_interpolation(prompt[i], prompt[i], seed_image, width) # prompt와 seed image로 bgm 생성하고, 저장까지 진행
             riffusion.run(i)
         break
