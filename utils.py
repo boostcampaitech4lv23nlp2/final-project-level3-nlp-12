@@ -21,6 +21,6 @@ def sent2prompt(sentiment, n_seg):
         'surprise' : ['dance by mozart', 'EDM']
     }
     prompt = [' '.join(random.sample(prompt_seg[sentiment], n_seg)) for _ in range(4)]
-    ran_idx = random.sample(range(5), 4)
-    seed_audio = [f'/opt/ml/input/code/final-project-level3-nlp-12/riffusion/seed_images/{sentiment}/{idx}.wav' for idx in ran_idx]
+    ran_idx = random.sample(range(3), 2)
+    seed_audio = [f'/opt/ml/input/code/final-project-level3-nlp-12/riffusion/seed_images/{sentiment}/{idx}.mp3' for idx in ran_idx]
     return prompt, seed_audio
