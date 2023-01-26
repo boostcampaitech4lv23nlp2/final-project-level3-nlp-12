@@ -9,9 +9,16 @@ thumbs.db
 .DS_Store
 .idea
 
+#################################################################################################################
+# by sol
 serving_test/
 port_test/
 shell/
 
 v2m_pipeline.py
 kfp_test/
+stt_sent.py
+serving/app/first_main.py
+model/v2sen.py
+kubernetes/kubeflow/server_secret_key.p
+#################################################################################################################
