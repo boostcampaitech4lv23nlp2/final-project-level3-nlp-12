@@ -9,7 +9,7 @@ import pickle
 
 
 def main():
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     # setting
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="large", help="name of the Whisper model to use") 
