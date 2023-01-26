@@ -16,9 +16,9 @@ def sent2prompt(sentiment, n_seg):
         'anger' : ['aggressive','wu-tang track', 'angry rap', 'Daft Punk', '150-180 BPM'],
         'disgust': ['radio active', 'distorted bass guitar', 'low-tuned synthesizer', '60-80 BPM'],
         'sad' : ['tinny', 'hollow', 'treble', 'crackles', 'pops', 'echo', 'cave'],
-        'fear' : ['gospel'],
-        'joy' : ['breakcore by mozart', 'debussy'],
-        'surprise' : ['dance by mozart', 'EDM']
+        'fear' : ['gospel', 'break','Plastic noises','white noise','screaming'],
+        'joy' : ['breakcore','mozart', 'the best song','freemasonry','funky vibe'],
+        'surprise' : ['EDM','daft','!!!!!!!!!!','a sine wave']
     }
     prompt = [' '.join(random.sample(prompt_seg[sentiment], n_seg)) for _ in range(4)]
     ran_idx = random.sample(range(3), 2)

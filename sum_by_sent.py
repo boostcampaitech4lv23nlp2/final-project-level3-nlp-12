@@ -16,39 +16,6 @@ class SentimentModel():
         text = [t.strip() for t in text if t]
         return text
     
-    # def run(self):
-    #     sentiments = []
-    #     text = self.text
-    #     for t in text:
-    #         sentiments.append(self.sentiment(t))
-    #     flag = None
-    #     contents = []
-    #     for x,y in zip(text, sentiments):
-    #         if flag == None:
-    #             if y[0]['label'] == 'positive':
-    #                 flag = True
-    #                 contents.append([x])
-    #             elif y[0]['label'] == 'negative':
-    #                 flag = False
-    #                 contents.append([x])
-    #         else:
-    #             if flag == False:
-    #                 if y[0]['label'] == 'positive':
-    #                     flag = True
-    #                     contents.append([x])
-    #                 else:
-    #                     contents[-1] += [x]
-    #             else:
-    #                 if y[0]['label'] == 'negative':
-    #                     flag = False
-    #                     contents.append([x])
-    #                 else:
-    #                     contents[-1] += [x]
-    #     contents = list(map(''.join, contents))
-    #     summarized = []
-    #     for x in contents:
-    #         summarized.append(self.summarizer(x))
-    #     return summarized
     def run(self):
         sentiments = []
         text = self.text
