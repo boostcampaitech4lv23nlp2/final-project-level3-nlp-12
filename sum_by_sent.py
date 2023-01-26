@@ -58,7 +58,8 @@ class SentimentModel():
             sentiments.append(result[0]['label'])
         sentiment = None
         contents = []
-        threshold = 5
+        min = 5
+        max = 20
         start = 0
         for x, y in zip(sentiments, self.time):
             if sentiment == None:
@@ -67,7 +68,7 @@ class SentimentModel():
                     start = y[0]
             else:
                 if x != sentiment and x != 'neutral':
-                    if int(y[0]) - start >= threshold:
+                    if int(y[0]) - start > min and int(y[0]) - start < max:
                         contents.append([start, int(y[0]), sentiment])
                     sentiment = x
                     start = int(y[0])
