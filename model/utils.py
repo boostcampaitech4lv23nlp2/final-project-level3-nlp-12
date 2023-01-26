@@ -1,5 +1,4 @@
 import os
-import sys
 from moviepy.editor import VideoFileClip
 import random
 
@@ -20,7 +19,8 @@ def sent2prompt(sentiment, n_seg):
         'joy' : ['breakcore','mozart', 'the best song','freemasonry','funky vibe'],
         'surprise' : ['EDM','daft','!!!!!!!!!!','a sine wave']
     }
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     prompt = [' '.join(random.sample(prompt_seg[sentiment], n_seg)) for _ in range(4)]
     ran_idx = random.sample(range(3), 2)
-    seed_audio = [f'/opt/ml/input/code/final-project-level3-nlp-12/riffusion/seed_images/{sentiment}/{idx}.mp3' for idx in ran_idx]
+    seed_audio = [os.path.join(BASE_DIR, f'riffusion/seed_images/{sentiment}/{idx}.mp3') for idx in ran_idx]
     return prompt, seed_audio

@@ -6,15 +6,16 @@ from sum_by_sent import SentimentModel
 import argparse
 import numpy as np
 import pickle
-import io
+
 
 def main():
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     # setting
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="large", help="name of the Whisper model to use") 
     parser.add_argument("--code", default="1", help="code used to verify request") 
-    parser.add_argument("--input_file",default="/opt/ml/input/code/final-project-level3-nlp-12/honeybee.wav")        # input 파일명
-    parser.add_argument("--output_dir",default="/opt/ml/input/code/final-project-level3-nlp-12/tmp")           # 결과 저장 경로
+    parser.add_argument("--input_file",default=os.path.join(BASE_DIR, "honeybee.wav"))        # input 파일명
+    parser.add_argument("--output_dir",default=os.path.join(BASE_DIR, 'tmp'))           # 결과 저장 경로
     args, _ = parser.parse_known_args()
     # 1-1. stt 실행
     model = whisper.load_model(args.model)  # model_name : large(default)

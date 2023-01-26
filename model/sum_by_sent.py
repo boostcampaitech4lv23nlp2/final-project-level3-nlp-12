@@ -1,5 +1,3 @@
-import sys
-sys.path.append('/opt/ml/input/code/final-project-level3-nlp-12/riffusion')
 from transformers import pipeline
 import re
 
@@ -8,7 +6,6 @@ class SentimentModel():
         self.time = timeline
         self.text = self.preprocessing(text)
         self.summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
-        #self.sentiment = pipeline("sentiment-analysis", model='cardiffnlp/twitter-roberta-base-sentiment-latest', tokenizer='cardiffnlp/twitter-roberta-base-sentiment-latest')
         self.classifier = pipeline("text-classification", model="j-hartmann/emotion-english-distilroberta-base", return_all_scores=True)
     
     def preprocessing(self, text):
