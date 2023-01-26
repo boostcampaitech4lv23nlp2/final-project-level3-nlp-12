@@ -13,7 +13,7 @@ def convert_video_to_audio_moviepy(video_file, output_ext="mp3"):
 
 def sent2prompt(sentiment, n_seg):
     prompt_seg = {
-        'angry' : ['aggressive','wu-tang track', 'angry rap', 'Daft Punk', '150-180 BPM'],
+        'anger' : ['aggressive','wu-tang track', 'angry rap', 'Daft Punk', '150-180 BPM'],
         'disgust': ['radio active', 'distorted bass guitar', 'low-tuned synthesizer', '60-80 BPM'],
         'sad' : ['tinny', 'hollow', 'treble', 'crackles', 'pops', 'echo', 'cave'],
         'fear' : ['gospel'],
