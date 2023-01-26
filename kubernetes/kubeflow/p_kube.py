@@ -8,7 +8,7 @@ def first_stage(value_1: int) -> int:
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect('101.101.209.53', username='root', port='2234', key_filename='/var/data/jd_key')
 
-    stdin, stdout, stderr = ssh.exec_command(f'cd /opt/ml/code && python test.py {value_1}')
+    stdin, stdout, stderr = ssh.exec_command(f'cd /opt/ml/final && python stt_summarization.py {value_1}')
     ret = stdout.readlines()
     ret = int(*ret)
     stdin.close()
@@ -41,16 +41,18 @@ def my_pipeline(value_1: int):
     pvc_name="kfpvc"
     volume_name="pipeline"
     volume_mount_path="var/data"
+    
+    with open('server_secret_key.p', 'rb') as file:        # server_secret_key에서 ip, port, key, pw 읽기
+        gw = pickle.load(file)
+        yc = pickle.load(file)
+        sol = pickle.load(file)
+        dk = pickle.load(file)
 
-    gw = {'ip': '118.67.133.154', 'port': '2239', 'key': 'gw', 'pw' : '1263'}
-    yc = {'ip': '27.96.134.124', 'port': '2238', 'key': 'yc', 'pw' : '0801'}
-    sol = {'ip': '118.67.133.198', 'port': '2242', 'key': 'sol', 'pw' : '1234'}
-    dw = {'ip': '118.67.142.47', 'port': '2233', 'key': 'dw', 'pw' : 'eks3242'}
-    my_dict = [gw,yc,sol,dw]
+    server_secret_key = [gw,yc,sol,dw]
 
     task_1 = first_stage_op(value_1).apply(onprem.mount_pvc(pvc_name, volume_name=volume_name, volume_mount_path=volume_mount_path))
     
-    with ParallelFor(my_dict) as item:
+    with ParallelFor(server_secret_key) as item:
         second_stage_op(task_1.output, item.ip, item.port, item.key, item.pw).apply(onprem.mount_pvc(pvc_name, volume_name=volume_name, volume_mount_path=volume_mount_path))
         
 if __name__ == '__main__':
