@@ -9,3 +9,13 @@ thumbs.db
 .DS_Store
 .idea
 *.pickle
+
+serving_test/
+port_test/
+shell/
+
+v2m_pipeline.py
+kfp_test/
+
+v2m_pipeline.py
+kfp_test/
