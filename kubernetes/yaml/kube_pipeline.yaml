@@ -1,0 +1,243 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: test-pipeline-
+  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.18, pipelines.kubeflow.org/pipeline_compilation_time: '2023-01-24T15:17:36.416955',
+    pipelines.kubeflow.org/pipeline_spec: '{"inputs": [{"name": "value_1", "type":
+      "Integer"}], "name": "test_pipeline"}'}
+  labels: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.18}
+spec:
+  entrypoint: test-pipeline
+  templates:
+  - name: jd
+    container:
+      args: [--value-1, '{{inputs.parameters.value_1}}', '----output-paths', /tmp/outputs/Output/data]
+      command:
+      - sh
+      - -c
+      - (PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+        'paramiko==3.0.0' || PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install
+        --quiet --no-warn-script-location 'paramiko==3.0.0' --user) && "$0" "$@"
+      - sh
+      - -ec
+      - |
+        program_path=$(mktemp)
+        printf "%s" "$0" > "$program_path"
+        python3 -u "$program_path" "$@"
+      - |
+        def jd(value_1):
+            import paramiko
+            ssh = paramiko.SSHClient()
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            ssh.connect('101.101.209.53', username='root', port='2234', key_filename='/var/data/jd_key')
+
+            stdin, stdout, stderr = ssh.exec_command(f'cd /opt/ml/input/code && python test.py {value_1}')
+            ret = stdout.readlines()
+            ret = int(*ret)
+            stdin.close()
+            ssh.close()
+
+            return ret
+
+        def _serialize_int(int_value: int) -> str:
+            if isinstance(int_value, str):
+                return int_value
+            if not isinstance(int_value, int):
+                raise TypeError('Value "{}" has type "{}" instead of int.'.format(
+                    str(int_value), str(type(int_value))))
+            return str(int_value)
+
+        import argparse
+        _parser = argparse.ArgumentParser(prog='Jd', description='')
+        _parser.add_argument("--value-1", dest="value_1", type=int, required=True, default=argparse.SUPPRESS)
+        _parser.add_argument("----output-paths", dest="_output_paths", type=str, nargs=1)
+        _parsed_args = vars(_parser.parse_args())
+        _output_files = _parsed_args.pop("_output_paths", [])
+
+        _outputs = jd(**_parsed_args)
+
+        _outputs = [_outputs]
+
+        _output_serializers = [
+            _serialize_int,
+
+        ]
+
+        import os
+        for idx, output_file in enumerate(_output_files):
+            try:
+                os.makedirs(os.path.dirname(output_file))
+            except OSError:
+                pass
+            with open(output_file, 'w') as f:
+                f.write(_output_serializers[idx](_outputs[idx]))
+      image: python:3.7
+      volumeMounts:
+      - {mountPath: var/data, name: pipeline}
+    inputs:
+      parameters:
+      - {name: value_1}
+    outputs:
+      parameters:
+      - name: jd-Output
+        valueFrom: {path: /tmp/outputs/Output/data}
+      artifacts:
+      - {name: jd-Output, path: /tmp/outputs/Output/data}
+    metadata:
+      labels:
+        pipelines.kubeflow.org/kfp_sdk_version: 1.8.18
+        pipelines.kubeflow.org/pipeline-sdk-type: kfp
+        pipelines.kubeflow.org/enable_caching: "true"
+      annotations: {pipelines.kubeflow.org/component_spec: '{"implementation": {"container":
+          {"args": ["--value-1", {"inputValue": "value_1"}, "----output-paths", {"outputPath":
+          "Output"}], "command": ["sh", "-c", "(PIP_DISABLE_PIP_VERSION_CHECK=1 python3
+          -m pip install --quiet --no-warn-script-location ''paramiko==3.0.0'' ||
+          PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+          ''paramiko==3.0.0'' --user) && \"$0\" \"$@\"", "sh", "-ec", "program_path=$(mktemp)\nprintf
+          \"%s\" \"$0\" > \"$program_path\"\npython3 -u \"$program_path\" \"$@\"\n",
+          "def jd(value_1):\n    import paramiko\n    ssh = paramiko.SSHClient()\n    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())\n    ssh.connect(''101.101.209.53'',
+          username=''root'', port=''2234'', key_filename=''/var/data/jd_key'')\n\n    stdin,
+          stdout, stderr = ssh.exec_command(f''cd /opt/ml/input/code && python test.py
+          {value_1}'')\n    ret = stdout.readlines()\n    ret = int(*ret)\n    stdin.close()\n    ssh.close()\n\n    return
+          ret\n\ndef _serialize_int(int_value: int) -> str:\n    if isinstance(int_value,
+          str):\n        return int_value\n    if not isinstance(int_value, int):\n        raise
+          TypeError(''Value \"{}\" has type \"{}\" instead of int.''.format(\n            str(int_value),
+          str(type(int_value))))\n    return str(int_value)\n\nimport argparse\n_parser
+          = argparse.ArgumentParser(prog=''Jd'', description='''')\n_parser.add_argument(\"--value-1\",
+          dest=\"value_1\", type=int, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"----output-paths\",
+          dest=\"_output_paths\", type=str, nargs=1)\n_parsed_args = vars(_parser.parse_args())\n_output_files
+          = _parsed_args.pop(\"_output_paths\", [])\n\n_outputs = jd(**_parsed_args)\n\n_outputs
+          = [_outputs]\n\n_output_serializers = [\n    _serialize_int,\n\n]\n\nimport
+          os\nfor idx, output_file in enumerate(_output_files):\n    try:\n        os.makedirs(os.path.dirname(output_file))\n    except
+          OSError:\n        pass\n    with open(output_file, ''w'') as f:\n        f.write(_output_serializers[idx](_outputs[idx]))\n"],
+          "image": "python:3.7"}}, "inputs": [{"name": "value_1", "type": "Integer"}],
+          "name": "Jd", "outputs": [{"name": "Output", "type": "Integer"}]}', pipelines.kubeflow.org/component_ref: '{}',
+        pipelines.kubeflow.org/arguments.parameters: '{"value_1": "{{inputs.parameters.value_1}}"}'}
+    volumes:
+    - name: pipeline
+      persistentVolumeClaim: {claimName: kfpvc}
+  - name: sol
+    container:
+      args: [--value-1, '{{inputs.parameters.jd-Output}}', '----output-paths', /tmp/outputs/Output/data]
+      command:
+      - sh
+      - -c
+      - (PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+        'paramiko==3.0.0' || PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install
+        --quiet --no-warn-script-location 'paramiko==3.0.0' --user) && "$0" "$@"
+      - sh
+      - -ec
+      - |
+        program_path=$(mktemp)
+        printf "%s" "$0" > "$program_path"
+        python3 -u "$program_path" "$@"
+      - |
+        def sol(value_1):
+            import paramiko
+            ssh = paramiko.SSHClient()
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            ssh.connect('118.67.133.198', username='root', port='2242', key_filename='/var/data/sol_key',password="1234")
+
+            stdin, stdout, stderr = ssh.exec_command(f'cd /opt/ml/final/serving_test && python test.py {value_1}')
+            ret = stdout.readlines()
+            ret = int(*ret)
+            stdin.close()
+            ssh.close()
+
+            return ret
+
+        def _serialize_int(int_value: int) -> str:
+            if isinstance(int_value, str):
+                return int_value
+            if not isinstance(int_value, int):
+                raise TypeError('Value "{}" has type "{}" instead of int.'.format(
+                    str(int_value), str(type(int_value))))
+            return str(int_value)
+
+        import argparse
+        _parser = argparse.ArgumentParser(prog='Sol', description='')
+        _parser.add_argument("--value-1", dest="value_1", type=int, required=True, default=argparse.SUPPRESS)
+        _parser.add_argument("----output-paths", dest="_output_paths", type=str, nargs=1)
+        _parsed_args = vars(_parser.parse_args())
+        _output_files = _parsed_args.pop("_output_paths", [])
+
+        _outputs = sol(**_parsed_args)
+
+        _outputs = [_outputs]
+
+        _output_serializers = [
+            _serialize_int,
+
+        ]
+
+        import os
+        for idx, output_file in enumerate(_output_files):
+            try:
+                os.makedirs(os.path.dirname(output_file))
+            except OSError:
+                pass
+            with open(output_file, 'w') as f:
+                f.write(_output_serializers[idx](_outputs[idx]))
+      image: python:3.7
+      volumeMounts:
+      - {mountPath: var/data, name: pipeline}
+    inputs:
+      parameters:
+      - {name: jd-Output}
+    outputs:
+      artifacts:
+      - {name: sol-Output, path: /tmp/outputs/Output/data}
+    metadata:
+      labels:
+        pipelines.kubeflow.org/kfp_sdk_version: 1.8.18
+        pipelines.kubeflow.org/pipeline-sdk-type: kfp
+        pipelines.kubeflow.org/enable_caching: "true"
+      annotations: {pipelines.kubeflow.org/component_spec: '{"implementation": {"container":
+          {"args": ["--value-1", {"inputValue": "value_1"}, "----output-paths", {"outputPath":
+          "Output"}], "command": ["sh", "-c", "(PIP_DISABLE_PIP_VERSION_CHECK=1 python3
+          -m pip install --quiet --no-warn-script-location ''paramiko==3.0.0'' ||
+          PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+          ''paramiko==3.0.0'' --user) && \"$0\" \"$@\"", "sh", "-ec", "program_path=$(mktemp)\nprintf
+          \"%s\" \"$0\" > \"$program_path\"\npython3 -u \"$program_path\" \"$@\"\n",
+          "def sol(value_1):\n    import paramiko\n    ssh = paramiko.SSHClient()\n    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())\n    ssh.connect(''118.67.133.198'',
+          username=''root'', port=''2242'', key_filename=''/var/data/sol_key'',password=\"1234\")\n\n    stdin,
+          stdout, stderr = ssh.exec_command(f''cd /opt/ml/final/serving_test && python
+          test.py {value_1}'')\n    ret = stdout.readlines()\n    ret = int(*ret)\n    stdin.close()\n    ssh.close()\n\n    return
+          ret\n\ndef _serialize_int(int_value: int) -> str:\n    if isinstance(int_value,
+          str):\n        return int_value\n    if not isinstance(int_value, int):\n        raise
+          TypeError(''Value \"{}\" has type \"{}\" instead of int.''.format(\n            str(int_value),
+          str(type(int_value))))\n    return str(int_value)\n\nimport argparse\n_parser
+          = argparse.ArgumentParser(prog=''Sol'', description='''')\n_parser.add_argument(\"--value-1\",
+          dest=\"value_1\", type=int, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"----output-paths\",
+          dest=\"_output_paths\", type=str, nargs=1)\n_parsed_args = vars(_parser.parse_args())\n_output_files
+          = _parsed_args.pop(\"_output_paths\", [])\n\n_outputs = sol(**_parsed_args)\n\n_outputs
+          = [_outputs]\n\n_output_serializers = [\n    _serialize_int,\n\n]\n\nimport
+          os\nfor idx, output_file in enumerate(_output_files):\n    try:\n        os.makedirs(os.path.dirname(output_file))\n    except
+          OSError:\n        pass\n    with open(output_file, ''w'') as f:\n        f.write(_output_serializers[idx](_outputs[idx]))\n"],
+          "image": "python:3.7"}}, "inputs": [{"name": "value_1", "type": "Integer"}],
+          "name": "Sol", "outputs": [{"name": "Output", "type": "Integer"}]}', pipelines.kubeflow.org/component_ref: '{}',
+        pipelines.kubeflow.org/arguments.parameters: '{"value_1": "{{inputs.parameters.jd-Output}}"}'}
+    volumes:
+    - name: pipeline
+      persistentVolumeClaim: {claimName: kfpvc}
+  - name: test-pipeline
+    inputs:
+      parameters:
+      - {name: value_1}
+    dag:
+      tasks:
+      - name: jd
+        template: jd
+        arguments:
+          parameters:
+          - {name: value_1, value: '{{inputs.parameters.value_1}}'}
+      - name: sol
+        template: sol
+        dependencies: [jd]
+        arguments:
+          parameters:
+          - {name: jd-Output, value: '{{tasks.jd.outputs.parameters.jd-Output}}'}
+  arguments:
+    parameters:
+    - {name: value_1}
+  serviceAccountName: pipeline-runner
