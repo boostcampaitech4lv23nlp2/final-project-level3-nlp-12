@@ -17,10 +17,10 @@ def sent2prompt(sentiment, n_seg):
         'disgust': ['radio active', 'distorted bass guitar', 'low-tuned synthesizer', '60-80 BPM'],
         'sad' : ['tinny', 'hollow', 'treble', 'crackles', 'pops', 'echo', 'cave'],
         'fear' : ['gospel'],
-        'joy' : ['breakcore by mozart(or debussy)'],
-        'surprise' : ['dance(or EDM) by mozart']
+        'joy' : ['breakcore by mozart', 'debussy'],
+        'surprise' : ['dance by mozart', 'EDM']
     }
     prompt = [' '.join(random.sample(prompt_seg[sentiment], n_seg)) for _ in range(4)]
-    ran_idx = random.sample(range(5), 4)
-    seed_image = [f'/opt/ml/input/code/final-project-level3-nlp-12/riffusion/seed_images/{sentiment}/{idx}.png' for idx in ran_idx]
-    return prompt, seed_image
+    ran_idx = random.sample(range(3), 2)
+    seed_audio = [f'/opt/ml/input/code/final-project-level3-nlp-12/riffusion/seed_images/{sentiment}/{idx}.mp3' for idx in ran_idx]
+    return prompt, seed_audio
