@@ -7,7 +7,7 @@ def first_stage() -> str:
     import paramiko
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect('101.101.209.53', username='root', port='2234', key_filename='/var/data/jd_key') ## TODO
+    ssh.connect('101.101.209.53', username='root', port='2235', key_filename='/var/data/jd_key')
 
     stdin, stdout, stderr = ssh.exec_command(f'cd /opt/ml/final/model && python stt_sent_for_serving.py')
     sentiment_string = stdout.readline().strip()
@@ -57,6 +57,6 @@ def my_pipeline():
 if __name__ == '__main__':
     kfp.compiler.Compiler().compile(
         my_pipeline,
-        "./kube_pipeline_stt_sent_riffusion.yaml"
+        "./stt_sent_riffusion_kfp.yaml"
     )
     print("Compelete")
