@@ -1,31 +1,29 @@
 import kfp
 from kfp.components import create_component_from_func
 from kfp import onprem
+import pickle
 
-def first_stage() -> list:
+def first_stage() -> str:
     import paramiko
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect('101.101.209.53', username='root', port='2234', key_filename='/var/data/jd_key')
+    ssh.connect('101.101.209.53', username='root', port='2234', key_filename='/var/data/jd_key') ## TODO
 
-    stdin, stdout, stderr = ssh.exec_command(f'cd /opt/ml/code/model && python stt_sent_for_serving.py')
-    sentiment = list(map(str, stdout.readline().strip().split(' ')))
-    sentiments = []
-    sentiments = [sentiment[i:i+3] for i in range(0, len(sentiment), 3)]
+    stdin, stdout, stderr = ssh.exec_command(f'cd /opt/ml/final/model && python stt_sent_for_serving.py')
+    sentiment_string = stdout.readline().strip()
     stdin.close()
     ssh.close()
 
-    return sentiments
+    return sentiment_string
 
-def second_stage(sentiments: list, ip: str, port: str, key: str, pw: str) -> str:
+def second_stage(sentiment_string: str, ip: str, port: str, key: str, pw: str) -> str:
     import paramiko
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(ip, username='root', port=port, key_filename=f'/var/data/{key}_key',password=pw)
-
-    stdin, stdout, stderr = ssh.exec_command('echo hi')
+    
+    stdin, stdout, stderr = ssh.exec_command(f'cd /opt/ml/final/model && python riffusion_pipeline_test.py --sentiment_string {sentiment_string}')
     ret = stdout.readlines()
-    ret = str(ret)
     stdin.close()
     ssh.close()
 
@@ -38,7 +36,7 @@ from kfp.dsl import pipeline
 from kfp.dsl import ParallelFor
 
 @pipeline(name="test_pipeline")
-def my_pipeline(value_1: int):
+def my_pipeline():
     pvc_name="kfpvc"
     volume_name="pipeline"
     volume_mount_path="var/data"
@@ -49,7 +47,7 @@ def my_pipeline(value_1: int):
         sol = pickle.load(file)
         dk = pickle.load(file)
 
-    server_secret_key = [gw,yc,sol,dw]
+    server_secret_key = [gw,yc,sol,dk]
 
     task_1 = first_stage_op().apply(onprem.mount_pvc(pvc_name, volume_name=volume_name, volume_mount_path=volume_mount_path))
     
@@ -59,6 +57,6 @@ def my_pipeline(value_1: int):
 if __name__ == '__main__':
     kfp.compiler.Compiler().compile(
         my_pipeline,
-        "./kube_p_pipeline.yaml"
+        "./kube_pipeline_stt_sent_riffusion.yaml"
     )
     print("Compelete")

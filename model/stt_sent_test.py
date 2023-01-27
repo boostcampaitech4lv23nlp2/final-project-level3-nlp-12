@@ -14,7 +14,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="large", help="name of the Whisper model to use") 
     parser.add_argument("--code", default="1", help="code used to verify request") 
-    parser.add_argument("--input_file",default=os.path.join(BASE_DIR, "serving/input/test_video.wav"))        # input 파일명
+    parser.add_argument("--input_file",default=os.path.join(BASE_DIR, "serving/input/test_sound.wav"))        # input 파일명
     parser.add_argument("--output_dir",default=os.path.join(BASE_DIR, 'serving/output'))           # 결과 저장 경로
     args, _ = parser.parse_known_args()
     # 1-1. stt 실행
