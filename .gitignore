@@ -22,6 +22,7 @@ stt_sent.py
 serving/app/first_main.py
 model/v2sen.py
 kubernetes/kubeflow/server_secret_key.p
+model/test_model.py
 #################################################################################################################
 
 
