@@ -15,7 +15,7 @@ import pydub
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--code", default="1", help="code used to verify request") 
-    parser.add_argument("--output_dir",default=os.path.join(BASE_DIR, 'serving/output'))  
+    parser.add_argument("--output_dir",default=os.path.join(BASE_DIR, 'tmp'))
     args, _ = parser.parse_known_args()
     # with open(os.path.join(args.output_dir, f'sentiments_{args.code}.pickle'), 'rb') as fw:
     #     sentiments = pickle.load(fw)
