@@ -9,7 +9,7 @@ thumbs.db
 .DS_Store
 .idea
 *.pickle
-
+*.mp3
 serving_test/
 port_test/
 shell/
