@@ -19,6 +19,10 @@
 
     ```conda install pyworld -c conda-forge```
 
+- update apt-get
+
+    ```apt-get update```
+
 - install libsndfile
 
     <!-- ```pip install libsndfile1``` -->
