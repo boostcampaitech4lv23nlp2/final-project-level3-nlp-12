@@ -22,6 +22,7 @@ stt_sent.py
 serving/app/first_main.py
 model/v2sen.py
 kubernetes/kubeflow/server_secret_key.p
+app/__pycache__/__main__.cpython-38.pyc
 #################################################################################################################
 
 
