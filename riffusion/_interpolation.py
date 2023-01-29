@@ -63,12 +63,13 @@ class Riffusion_interpolation():
         for segment in audio_segments[1:]:
             concat_segment = concat_segment.append(segment, crossfade=0)
 
-        audio_bytes = io.BytesIO()
-        concat_segment.export(audio_bytes, format="mp3")
-        audio_bytes.seek(0)
-        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        with open(os.path.join(BASE_DIR, f'audio_results/test_{code}_{idx}.wav'), mode='bx') as f:
-                f.write(audio_bytes.getvalue())
+        return concat_segment
+        # audio_bytes = io.BytesIO()
+        # concat_segment.export(audio_bytes, format="mp3")
+        # audio_bytes.seek(0)
+        # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        # with open(os.path.join(BASE_DIR, f'audio_results/test_{code}_{idx}.wav'), mode='bx') as f:
+        #         f.write(audio_bytes.getvalue())
 
     def run_interpolation(self, 
         inputs: InferenceInput, init_image: Image.Image, device: str = "cuda"

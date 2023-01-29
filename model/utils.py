@@ -1,5 +1,5 @@
 import os
-from moviepy.editor import VideoFileClip
+from moviepy.editor import VideoFileClip, AudioFileClip, CompositeAudioClip
 import random
 
 def convert_video_to_audio_moviepy(video_file, output_ext="mp3"):
@@ -8,6 +8,7 @@ def convert_video_to_audio_moviepy(video_file, output_ext="mp3"):
     filename, ext = os.path.splitext(video_file)
     clip = VideoFileClip(video_file)
     clip.audio.write_audiofile(f"{filename}.{output_ext}")
+
 
 
 def sent2prompt(sentiment, n_seg):
@@ -20,7 +21,36 @@ def sent2prompt(sentiment, n_seg):
         'surprise' : ['EDM','daft','!!!!!!!!!!','a sine wave']
     }
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    prompt = [' '.join(random.sample(prompt_seg[sentiment], n_seg)) for _ in range(4)]
-    ran_idx = random.sample(range(3), 2)
-    seed_audio = [os.path.join(BASE_DIR, f'riffusion/seed_images/{sentiment}/{idx}.mp3') for idx in ran_idx]
+    prompt = ' '.join(random.sample(prompt_seg[sentiment], n_seg))
+    seed_audio = os.path.join(BASE_DIR, f'riffusion/seed_images/{sentiment}/'+ random.choice(os.listdir(os.path.join(BASE_DIR, f'riffusion/seed_images/{sentiment}'))))
     return prompt, seed_audio
+
+def video_music_merge(video, audio, output_dir):
+    start, end, composite = 0, len(video), False
+
+    # load the video
+    video_clip = VideoFileClip(video)
+    # load the audio
+    audio_clip = AudioFileClip(audio)
+
+    # use the volume factor to increase/decrease volume
+    #audio_clip = audio_clip.volumex(volume_factor)
+    # if end is not set, use video clip's end
+    if not end:
+        end = audio_clip.end
+    # make sure audio clip is less than video clip in duration
+    # setting the start & end of the audio clip to `start` and `end` paramters
+    audio_clip = audio_clip.subclip(start, end)
+
+    # composite with the existing audio in the video if composite parameter is set
+    if composite:
+        final_audio = CompositeAudioClip([video_clip.audio, audio_clip])
+    else:
+        final_audio = audio_clip
+    # add the final audio to the video
+    final_clip = video_clip.set_audio(final_audio)
+
+    # save the final clip
+    final_clip.write_videofile(output_dir, codec='libx264')
+
+
