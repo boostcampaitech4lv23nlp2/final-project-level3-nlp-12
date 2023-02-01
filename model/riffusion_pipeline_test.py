@@ -27,7 +27,7 @@ def main():
     for i, s in enumerate(sentiments):
         s[0] = int(s[0])
         s[1] = int(s[1])
-        if s[2] == None:
+        if s[2] == 'None':
             if audio_seg == None:
                 audio_seg = AudioSegment.silent(duration=int(s[1]-s[0])* 1000)
             else:
