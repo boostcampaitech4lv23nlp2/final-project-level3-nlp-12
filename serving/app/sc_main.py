@@ -21,6 +21,8 @@ rfServers = [
     "118.67.133.198:30001",
 ]
 
+count = 1
+
 app = FastAPI()
 
 origins = ["*"]
@@ -40,9 +42,14 @@ app.add_middleware(
 
 @app.post("/upload")
 async def upload(file: UploadFile = Form()):
+    '''
+    local 서버에서 파일을 받음
+    sc 서버 input 경로에 파일 저장
+    '''
+    global count
     video = await file.read()  # 파일 읽기
     
-    file_name = file.filename # 파일 이름 저장
+    file_name = "video_" + str(count) + ".mp4" # 파일 이름 저장
     file_path = os.path.join(INPUT_DIR, file_name) # input 경로
     
     with open(file_path, "wb") as f: # Upload된 input 데이터 저장
@@ -50,21 +57,8 @@ async def upload(file: UploadFile = Form()):
 
     for server in rfServers:
         requests.post(f'{server}:30002/getfile', files=video)
-
-    return FileResponse(file_path)
-
-@app.get("/result/{file_name}") # 결과
-def download(file_name: str):
-    file_path = os.path.join(OUTPUT_DIR, file_name) # output 경로 + 파일 이름 
-
-    return FileResponse(file_path)
-
-@app.post("/getfile")
-async def getfile(file: UploadFile):
-    result = await file.read()
-
-    file_name = file.filename
-    file_path = os.path.join(OUTPUT_DIR, file_name) # 저장 경로
-    with open(file_path, "wb") as f: 
-        f.write(result)
+    
+    count += 1
+    
+    return "OK"
 

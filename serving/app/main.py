@@ -10,14 +10,14 @@ OUTPUT_DIR = os.path.join(BASE_DIR, "serving/output")
 app = FastAPI()
 
 
-@app.post("/getfile")
+@app.post("/getfile/{count}")
 async def getfile(file: UploadFile):
     '''
     sc 서버에서 video 파일을 받음
     rf 서버 input 경로에 파일 저장
     '''
     result = await file.read()
-    file_name = file.filename
+    file_name = f"video_{count}.mp4"
     file_path = os.path.join(INPUT_DIR, file_name)
     with open(file_path, "wb") as f:
         f.write(result)
@@ -33,5 +33,5 @@ def download(count: int):
     return FileResponse(file_path)
 
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=30002)
+# if __name__ == "__main__":
+#     uvicorn.run(app, host="0.0.0.0", port=30002)

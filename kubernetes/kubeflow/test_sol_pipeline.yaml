@@ -2,15 +2,16 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   generateName: test-pipeline-
-  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.18, pipelines.kubeflow.org/pipeline_compilation_time: '2023-01-30T08:20:12.711403',
-    pipelines.kubeflow.org/pipeline_spec: '{"name": "test_pipeline"}'}
+  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.18, pipelines.kubeflow.org/pipeline_compilation_time: '2023-02-01T08:54:13.398520',
+    pipelines.kubeflow.org/pipeline_spec: '{"inputs": [{"name": "count", "type": "Integer"}],
+      "name": "test_pipeline"}'}
   labels: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.18}
 spec:
   entrypoint: test-pipeline
   templates:
   - name: first-stage
     container:
-      args: ['----output-paths', /tmp/outputs/Output/data]
+      args: [--cnt, '{{inputs.parameters.count}}', '----output-paths', /tmp/outputs/Output/data]
       command:
       - sh
       - -c
@@ -23,26 +24,31 @@ spec:
         program_path=$(mktemp)
         printf "%s" "$0" > "$program_path"
         python3 -u "$program_path" "$@"
-      - "def first_stage():\n    import paramiko\n    ssh = paramiko.SSHClient()\n\
+      - "def first_stage(cnt):\n    import paramiko\n    ssh = paramiko.SSHClient()\n\
         \    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())\n    ssh.connect('101.101.209.53',\
         \ username='root', port='2235', key_filename='/var/data/jd_key',password='1234')\
         \ \n\n    stdin, stdout, stderr = ssh.exec_command(f'cd /opt/ml/final/model\
-        \ && conda activate JD && python stt_sent_test.py')\n    sentiment_string\
-        \ = stdout.readline().strip()\n    stdin.close()\n    ssh.close()\n\n    return\
-        \ sentiment_string\n\ndef _serialize_str(str_value: str) -> str:\n    if not\
-        \ isinstance(str_value, str):\n        raise TypeError('Value \"{}\" has type\
-        \ \"{}\" instead of str.'.format(\n            str(str_value), str(type(str_value))))\n\
-        \    return str_value\n\nimport argparse\n_parser = argparse.ArgumentParser(prog='First\
-        \ stage', description='')\n_parser.add_argument(\"----output-paths\", dest=\"\
-        _output_paths\", type=str, nargs=1)\n_parsed_args = vars(_parser.parse_args())\n\
-        _output_files = _parsed_args.pop(\"_output_paths\", [])\n\n_outputs = first_stage(**_parsed_args)\n\
-        \n_outputs = [_outputs]\n\n_output_serializers = [\n    _serialize_str,\n\n\
-        ]\n\nimport os\nfor idx, output_file in enumerate(_output_files):\n    try:\n\
-        \        os.makedirs(os.path.dirname(output_file))\n    except OSError:\n\
-        \        pass\n    with open(output_file, 'w') as f:\n        f.write(_output_serializers[idx](_outputs[idx]))\n"
+        \ && conda activate JD && python stt_sent_test.py --input_file /opt/ml/final/serving/input/video_{cnt}.mp4')\n\
+        \    sentiment_string = stdout.readline().strip()\n    stdin.close()\n   \
+        \ ssh.close()\n\n    return sentiment_string\n\ndef _serialize_str(str_value:\
+        \ str) -> str:\n    if not isinstance(str_value, str):\n        raise TypeError('Value\
+        \ \"{}\" has type \"{}\" instead of str.'.format(\n            str(str_value),\
+        \ str(type(str_value))))\n    return str_value\n\nimport argparse\n_parser\
+        \ = argparse.ArgumentParser(prog='First stage', description='')\n_parser.add_argument(\"\
+        --cnt\", dest=\"cnt\", type=int, required=True, default=argparse.SUPPRESS)\n\
+        _parser.add_argument(\"----output-paths\", dest=\"_output_paths\", type=str,\
+        \ nargs=1)\n_parsed_args = vars(_parser.parse_args())\n_output_files = _parsed_args.pop(\"\
+        _output_paths\", [])\n\n_outputs = first_stage(**_parsed_args)\n\n_outputs\
+        \ = [_outputs]\n\n_output_serializers = [\n    _serialize_str,\n\n]\n\nimport\
+        \ os\nfor idx, output_file in enumerate(_output_files):\n    try:\n      \
+        \  os.makedirs(os.path.dirname(output_file))\n    except OSError:\n      \
+        \  pass\n    with open(output_file, 'w') as f:\n        f.write(_output_serializers[idx](_outputs[idx]))\n"
       image: python:3.7
       volumeMounts:
       - {mountPath: var/data, name: pipeline}
+    inputs:
+      parameters:
+      - {name: count}
     outputs:
       parameters:
       - name: first-stage-Output
@@ -55,29 +61,32 @@ spec:
         pipelines.kubeflow.org/pipeline-sdk-type: kfp
         pipelines.kubeflow.org/enable_caching: "true"
       annotations: {pipelines.kubeflow.org/component_spec: '{"implementation": {"container":
-          {"args": ["----output-paths", {"outputPath": "Output"}], "command": ["sh",
-          "-c", "(PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
-          ''paramiko==3.0.0'' || PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install
-          --quiet --no-warn-script-location ''paramiko==3.0.0'' --user) && \"$0\"
-          \"$@\"", "sh", "-ec", "program_path=$(mktemp)\nprintf \"%s\" \"$0\" > \"$program_path\"\npython3
-          -u \"$program_path\" \"$@\"\n", "def first_stage():\n    import paramiko\n    ssh
-          = paramiko.SSHClient()\n    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())\n    ssh.connect(''101.101.209.53'',
+          {"args": ["--cnt", {"inputValue": "cnt"}, "----output-paths", {"outputPath":
+          "Output"}], "command": ["sh", "-c", "(PIP_DISABLE_PIP_VERSION_CHECK=1 python3
+          -m pip install --quiet --no-warn-script-location ''paramiko==3.0.0'' ||
+          PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+          ''paramiko==3.0.0'' --user) && \"$0\" \"$@\"", "sh", "-ec", "program_path=$(mktemp)\nprintf
+          \"%s\" \"$0\" > \"$program_path\"\npython3 -u \"$program_path\" \"$@\"\n",
+          "def first_stage(cnt):\n    import paramiko\n    ssh = paramiko.SSHClient()\n    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())\n    ssh.connect(''101.101.209.53'',
           username=''root'', port=''2235'', key_filename=''/var/data/jd_key'',password=''1234'')
           \n\n    stdin, stdout, stderr = ssh.exec_command(f''cd /opt/ml/final/model
-          && conda activate JD && python stt_sent_test.py'')\n    sentiment_string
+          && conda activate JD && python stt_sent_test.py --input_file /opt/ml/final/serving/input/video_{cnt}.mp4'')\n    sentiment_string
           = stdout.readline().strip()\n    stdin.close()\n    ssh.close()\n\n    return
           sentiment_string\n\ndef _serialize_str(str_value: str) -> str:\n    if not
           isinstance(str_value, str):\n        raise TypeError(''Value \"{}\" has
           type \"{}\" instead of str.''.format(\n            str(str_value), str(type(str_value))))\n    return
           str_value\n\nimport argparse\n_parser = argparse.ArgumentParser(prog=''First
-          stage'', description='''')\n_parser.add_argument(\"----output-paths\", dest=\"_output_paths\",
-          type=str, nargs=1)\n_parsed_args = vars(_parser.parse_args())\n_output_files
+          stage'', description='''')\n_parser.add_argument(\"--cnt\", dest=\"cnt\",
+          type=int, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"----output-paths\",
+          dest=\"_output_paths\", type=str, nargs=1)\n_parsed_args = vars(_parser.parse_args())\n_output_files
           = _parsed_args.pop(\"_output_paths\", [])\n\n_outputs = first_stage(**_parsed_args)\n\n_outputs
           = [_outputs]\n\n_output_serializers = [\n    _serialize_str,\n\n]\n\nimport
           os\nfor idx, output_file in enumerate(_output_files):\n    try:\n        os.makedirs(os.path.dirname(output_file))\n    except
           OSError:\n        pass\n    with open(output_file, ''w'') as f:\n        f.write(_output_serializers[idx](_outputs[idx]))\n"],
-          "image": "python:3.7"}}, "name": "First stage", "outputs": [{"name": "Output",
-          "type": "String"}]}', pipelines.kubeflow.org/component_ref: '{}'}
+          "image": "python:3.7"}}, "inputs": [{"name": "cnt", "type": "Integer"}],
+          "name": "First stage", "outputs": [{"name": "Output", "type": "String"}]}',
+        pipelines.kubeflow.org/component_ref: '{}', pipelines.kubeflow.org/arguments.parameters: '{"cnt":
+          "{{inputs.parameters.count}}"}'}
     volumes:
     - name: pipeline
       persistentVolumeClaim: {claimName: kfpvc}
@@ -85,6 +94,7 @@ spec:
     parallelism: 0
     inputs:
       parameters:
+      - {name: count}
       - {name: first-stage-Output}
       - {name: loop-item-param-1-subvar-conda}
       - {name: loop-item-param-1-subvar-ip}
@@ -97,6 +107,7 @@ spec:
         template: second-stage
         arguments:
           parameters:
+          - {name: count, value: '{{inputs.parameters.count}}'}
           - {name: first-stage-Output, value: '{{inputs.parameters.first-stage-Output}}'}
           - {name: loop-item-param-1-subvar-conda, value: '{{inputs.parameters.loop-item-param-1-subvar-conda}}'}
           - {name: loop-item-param-1-subvar-ip, value: '{{inputs.parameters.loop-item-param-1-subvar-ip}}'}
@@ -108,8 +119,8 @@ spec:
       args: [--sentiment-string, '{{inputs.parameters.first-stage-Output}}', --ip,
         '{{inputs.parameters.loop-item-param-1-subvar-ip}}', --port, '{{inputs.parameters.loop-item-param-1-subvar-port}}',
         --key, '{{inputs.parameters.loop-item-param-1-subvar-key}}', --pw, '{{inputs.parameters.loop-item-param-1-subvar-pw}}',
-        --conda, '{{inputs.parameters.loop-item-param-1-subvar-conda}}', '----output-paths',
-        /tmp/outputs/Output/data]
+        --conda, '{{inputs.parameters.loop-item-param-1-subvar-conda}}', --cnt, '{{inputs.parameters.count}}',
+        '----output-paths', /tmp/outputs/Output/data]
       command:
       - sh
       - -c
@@ -122,38 +133,42 @@ spec:
         program_path=$(mktemp)
         printf "%s" "$0" > "$program_path"
         python3 -u "$program_path" "$@"
-      - "def second_stage(sentiment_string, ip, port, key, pw, conda):\n    import\
+      - "def second_stage(sentiment_string, ip, port, key, pw, conda, cnt):\n    import\
         \ paramiko\n    ssh = paramiko.SSHClient()\n    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())\n\
         \    ssh.connect(ip, username='root', port=port, key_filename=f'/var/data/{key}_key',password=pw)\
         \ \n\n    stdin, stdout, stderr = ssh.exec_command(f'cd /opt/ml/final/model\
         \ && conda activate {conda} && python riffusion_pipeline_test.py --sentiment_string\
-        \ \"{sentiment_string}\"')\n    results = stdout.readlines()\n    filepath\
-        \ = 'No result in second stage'\n    for result in results:\n        result\
-        \ = result.strip()\n        if result.startswith('/opt/ml/final/tmp'):\n \
-        \           filepath = result\n            break\n    stdin.close()\n    ssh.close()\n\
-        \n    return filepath\n\ndef _serialize_str(str_value: str) -> str:\n    if\
-        \ not isinstance(str_value, str):\n        raise TypeError('Value \"{}\" has\
-        \ type \"{}\" instead of str.'.format(\n            str(str_value), str(type(str_value))))\n\
-        \    return str_value\n\nimport argparse\n_parser = argparse.ArgumentParser(prog='Second\
-        \ stage', description='')\n_parser.add_argument(\"--sentiment-string\", dest=\"\
-        sentiment_string\", type=str, required=True, default=argparse.SUPPRESS)\n\
-        _parser.add_argument(\"--ip\", dest=\"ip\", type=str, required=True, default=argparse.SUPPRESS)\n\
-        _parser.add_argument(\"--port\", dest=\"port\", type=str, required=True, default=argparse.SUPPRESS)\n\
+        \ \"{sentiment_string}\" --code \"{cnt}\"')\n    results = stdout.readlines()\n\
+        \    # filepath = 'No result in second stage'\n    # for result in results:\n\
+        \    #     result = result.strip()\n    #     if result.startswith('/opt/ml/final/tmp'):\n\
+        \    #         filepath = result\n    #         break\n    stdin.close()\n\
+        \    ssh.close()\n    ret = \"Compelete\"\n    return ret\n\ndef _serialize_str(str_value:\
+        \ str) -> str:\n    if not isinstance(str_value, str):\n        raise TypeError('Value\
+        \ \"{}\" has type \"{}\" instead of str.'.format(\n            str(str_value),\
+        \ str(type(str_value))))\n    return str_value\n\nimport argparse\n_parser\
+        \ = argparse.ArgumentParser(prog='Second stage', description='')\n_parser.add_argument(\"\
+        --sentiment-string\", dest=\"sentiment_string\", type=str, required=True,\
+        \ default=argparse.SUPPRESS)\n_parser.add_argument(\"--ip\", dest=\"ip\",\
+        \ type=str, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"\
+        --port\", dest=\"port\", type=str, required=True, default=argparse.SUPPRESS)\n\
         _parser.add_argument(\"--key\", dest=\"key\", type=str, required=True, default=argparse.SUPPRESS)\n\
         _parser.add_argument(\"--pw\", dest=\"pw\", type=str, required=True, default=argparse.SUPPRESS)\n\
         _parser.add_argument(\"--conda\", dest=\"conda\", type=str, required=True,\
-        \ default=argparse.SUPPRESS)\n_parser.add_argument(\"----output-paths\", dest=\"\
-        _output_paths\", type=str, nargs=1)\n_parsed_args = vars(_parser.parse_args())\n\
-        _output_files = _parsed_args.pop(\"_output_paths\", [])\n\n_outputs = second_stage(**_parsed_args)\n\
-        \n_outputs = [_outputs]\n\n_output_serializers = [\n    _serialize_str,\n\n\
-        ]\n\nimport os\nfor idx, output_file in enumerate(_output_files):\n    try:\n\
-        \        os.makedirs(os.path.dirname(output_file))\n    except OSError:\n\
-        \        pass\n    with open(output_file, 'w') as f:\n        f.write(_output_serializers[idx](_outputs[idx]))\n"
+        \ default=argparse.SUPPRESS)\n_parser.add_argument(\"--cnt\", dest=\"cnt\"\
+        , type=int, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"\
+        ----output-paths\", dest=\"_output_paths\", type=str, nargs=1)\n_parsed_args\
+        \ = vars(_parser.parse_args())\n_output_files = _parsed_args.pop(\"_output_paths\"\
+        , [])\n\n_outputs = second_stage(**_parsed_args)\n\n_outputs = [_outputs]\n\
+        \n_output_serializers = [\n    _serialize_str,\n\n]\n\nimport os\nfor idx,\
+        \ output_file in enumerate(_output_files):\n    try:\n        os.makedirs(os.path.dirname(output_file))\n\
+        \    except OSError:\n        pass\n    with open(output_file, 'w') as f:\n\
+        \        f.write(_output_serializers[idx](_outputs[idx]))\n"
       image: python:3.7
       volumeMounts:
       - {mountPath: var/data, name: pipeline}
     inputs:
       parameters:
+      - {name: count}
       - {name: first-stage-Output}
       - {name: loop-item-param-1-subvar-conda}
       - {name: loop-item-param-1-subvar-ip}
@@ -172,31 +187,33 @@ spec:
           {"args": ["--sentiment-string", {"inputValue": "sentiment_string"}, "--ip",
           {"inputValue": "ip"}, "--port", {"inputValue": "port"}, "--key", {"inputValue":
           "key"}, "--pw", {"inputValue": "pw"}, "--conda", {"inputValue": "conda"},
-          "----output-paths", {"outputPath": "Output"}], "command": ["sh", "-c", "(PIP_DISABLE_PIP_VERSION_CHECK=1
+          "--cnt", {"inputValue": "cnt"}, "----output-paths", {"outputPath": "Output"}],
+          "command": ["sh", "-c", "(PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip
+          install --quiet --no-warn-script-location ''paramiko==3.0.0'' || PIP_DISABLE_PIP_VERSION_CHECK=1
           python3 -m pip install --quiet --no-warn-script-location ''paramiko==3.0.0''
-          || PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
-          ''paramiko==3.0.0'' --user) && \"$0\" \"$@\"", "sh", "-ec", "program_path=$(mktemp)\nprintf
+          --user) && \"$0\" \"$@\"", "sh", "-ec", "program_path=$(mktemp)\nprintf
           \"%s\" \"$0\" > \"$program_path\"\npython3 -u \"$program_path\" \"$@\"\n",
-          "def second_stage(sentiment_string, ip, port, key, pw, conda):\n    import
+          "def second_stage(sentiment_string, ip, port, key, pw, conda, cnt):\n    import
           paramiko\n    ssh = paramiko.SSHClient()\n    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())\n    ssh.connect(ip,
           username=''root'', port=port, key_filename=f''/var/data/{key}_key'',password=pw)
           \n\n    stdin, stdout, stderr = ssh.exec_command(f''cd /opt/ml/final/model
           && conda activate {conda} && python riffusion_pipeline_test.py --sentiment_string
-          \"{sentiment_string}\"'')\n    results = stdout.readlines()\n    filepath
-          = ''No result in second stage''\n    for result in results:\n        result
-          = result.strip()\n        if result.startswith(''/opt/ml/final/tmp''):\n            filepath
-          = result\n            break\n    stdin.close()\n    ssh.close()\n\n    return
-          filepath\n\ndef _serialize_str(str_value: str) -> str:\n    if not isinstance(str_value,
-          str):\n        raise TypeError(''Value \"{}\" has type \"{}\" instead of
-          str.''.format(\n            str(str_value), str(type(str_value))))\n    return
-          str_value\n\nimport argparse\n_parser = argparse.ArgumentParser(prog=''Second
-          stage'', description='''')\n_parser.add_argument(\"--sentiment-string\",
+          \"{sentiment_string}\" --code \"{cnt}\"'')\n    results = stdout.readlines()\n    #
+          filepath = ''No result in second stage''\n    # for result in results:\n    #     result
+          = result.strip()\n    #     if result.startswith(''/opt/ml/final/tmp''):\n    #         filepath
+          = result\n    #         break\n    stdin.close()\n    ssh.close()\n    ret
+          = \"Compelete\"\n    return ret\n\ndef _serialize_str(str_value: str) ->
+          str:\n    if not isinstance(str_value, str):\n        raise TypeError(''Value
+          \"{}\" has type \"{}\" instead of str.''.format(\n            str(str_value),
+          str(type(str_value))))\n    return str_value\n\nimport argparse\n_parser
+          = argparse.ArgumentParser(prog=''Second stage'', description='''')\n_parser.add_argument(\"--sentiment-string\",
           dest=\"sentiment_string\", type=str, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"--ip\",
           dest=\"ip\", type=str, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"--port\",
           dest=\"port\", type=str, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"--key\",
           dest=\"key\", type=str, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"--pw\",
           dest=\"pw\", type=str, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"--conda\",
-          dest=\"conda\", type=str, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"----output-paths\",
+          dest=\"conda\", type=str, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"--cnt\",
+          dest=\"cnt\", type=int, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"----output-paths\",
           dest=\"_output_paths\", type=str, nargs=1)\n_parsed_args = vars(_parser.parse_args())\n_output_files
           = _parsed_args.pop(\"_output_paths\", [])\n\n_outputs = second_stage(**_parsed_args)\n\n_outputs
           = [_outputs]\n\n_output_serializers = [\n    _serialize_str,\n\n]\n\nimport
@@ -205,24 +222,33 @@ spec:
           "image": "python:3.7"}}, "inputs": [{"name": "sentiment_string", "type":
           "String"}, {"name": "ip", "type": "String"}, {"name": "port", "type": "String"},
           {"name": "key", "type": "String"}, {"name": "pw", "type": "String"}, {"name":
-          "conda", "type": "String"}], "name": "Second stage", "outputs": [{"name":
-          "Output", "type": "String"}]}', pipelines.kubeflow.org/component_ref: '{}',
-        pipelines.kubeflow.org/arguments.parameters: '{"conda": "{{inputs.parameters.loop-item-param-1-subvar-conda}}",
-          "ip": "{{inputs.parameters.loop-item-param-1-subvar-ip}}", "key": "{{inputs.parameters.loop-item-param-1-subvar-key}}",
-          "port": "{{inputs.parameters.loop-item-param-1-subvar-port}}", "pw": "{{inputs.parameters.loop-item-param-1-subvar-pw}}",
-          "sentiment_string": "{{inputs.parameters.first-stage-Output}}"}'}
+          "conda", "type": "String"}, {"name": "cnt", "type": "Integer"}], "name":
+          "Second stage", "outputs": [{"name": "Output", "type": "String"}]}', pipelines.kubeflow.org/component_ref: '{}',
+        pipelines.kubeflow.org/arguments.parameters: '{"cnt": "{{inputs.parameters.count}}",
+          "conda": "{{inputs.parameters.loop-item-param-1-subvar-conda}}", "ip": "{{inputs.parameters.loop-item-param-1-subvar-ip}}",
+          "key": "{{inputs.parameters.loop-item-param-1-subvar-key}}", "port": "{{inputs.parameters.loop-item-param-1-subvar-port}}",
+          "pw": "{{inputs.parameters.loop-item-param-1-subvar-pw}}", "sentiment_string":
+          "{{inputs.parameters.first-stage-Output}}"}'}
     volumes:
     - name: pipeline
       persistentVolumeClaim: {claimName: kfpvc}
   - name: test-pipeline
+    inputs:
+      parameters:
+      - {name: count}
     dag:
       tasks:
-      - {name: first-stage, template: first-stage}
+      - name: first-stage
+        template: first-stage
+        arguments:
+          parameters:
+          - {name: count, value: '{{inputs.parameters.count}}'}
       - name: for-loop-2
         template: for-loop-2
         dependencies: [first-stage]
         arguments:
           parameters:
+          - {name: count, value: '{{inputs.parameters.count}}'}
           - {name: first-stage-Output, value: '{{tasks.first-stage.outputs.parameters.first-stage-Output}}'}
           - {name: loop-item-param-1-subvar-conda, value: '{{item.conda}}'}
           - {name: loop-item-param-1-subvar-ip, value: '{{item.ip}}'}
@@ -230,10 +256,8 @@ spec:
           - {name: loop-item-param-1-subvar-port, value: '{{item.port}}'}
           - {name: loop-item-param-1-subvar-pw, value: '{{item.pw}}'}
         withItems:
-        - {ip: 118.67.133.154, port: '2240', key: gw, pw: '0000', conda: gw}
-        - {ip: 27.96.134.124, port: '2238', key: yc, pw: 0801, conda: whisper}
         - {ip: 118.67.133.198, port: '2243', key: sol, pw: '1234', conda: final}
-        - {ip: 118.67.142.47, port: '2234', key: dw, pw: '0214', conda: lv3}
   arguments:
-    parameters: []
+    parameters:
+    - {name: count}
   serviceAccountName: pipeline-runner
