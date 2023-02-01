@@ -12,23 +12,23 @@ from riffusion.cli import audio_to_image
 import pickle
 import pydub
 from pydub import AudioSegment
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--code", default="1", help="code used to verify request") 
     parser.add_argument("--output_dir",default=os.path.join(BASE_DIR, 'tmp'))
-    parser.add_argument("--sentiment_string",default="80 94 fear")
+    parser.add_argument("--sentiment_string",default="0 0 None 0 9 joy 9 19 disgust 19 23 None 23 35 sadness 35 45 surprise 45 48 None 48 51 None 51 54 None")
     args, _ = parser.parse_known_args()
-    
+    audio_path = os.path.join(args.output_dir, f'audio_{args.code}.mp3')
     sentiment = list(map(str, args.sentiment_string.split(' ')))
     sentiments = []
     sentiments = [sentiment[i:i+3] for i in range(0, len(sentiment), 3)] # [[6, 12, 'surprise']]
     audio_seg = None
     for i, s in enumerate(sentiments):
+        print(i, s)
         s[0] = int(s[0])
         s[1] = int(s[1])
-        if s[2] == None:
+        if s[2] == 'None':
             if audio_seg == None:
                 audio_seg = AudioSegment.silent(duration=int(s[1]-s[0])* 1000)
             else:
@@ -53,11 +53,10 @@ def main():
             audio_seg = concat_seg
         else:
             audio_seg += concat_seg
-    audio_path = os.path.join(args.output_dir, f'audio_{args.code}.mp3')
     audio_seg.export(audio_path, format="mp3")
     # TODO 모델팀 최종 output에 따라 파일 이름 규칙 정하기
-    return audio_path
-    
+    print(audio_path)
+
 if __name__ == '__main__':
-    path = main()
-    print(path)
+    main()
+
