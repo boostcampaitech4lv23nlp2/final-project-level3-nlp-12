@@ -15,7 +15,7 @@ def sent2prompt(sentiment, n_seg):
     prompt_seg = {
         'anger' : ['aggressive','wu-tang track', 'angry rap', 'Daft Punk', '150-180 BPM'],
         'disgust': ['radio active', 'distorted bass guitar', 'low-tuned synthesizer', '60-80 BPM'],
-        'sad' : ['tinny', 'hollow', 'treble', 'crackles', 'pops', 'echo', 'cave'],
+        'sadness' : ['tinny', 'hollow', 'treble', 'crackles', 'pops', 'echo', 'cave'],
         'fear' : ['gospel', 'break','Plastic noises','white noise','screaming'],
         'joy' : ['breakcore','mozart', 'the best song','freemasonry','funky vibe'],
         'surprise' : ['EDM','daft','!!!!!!!!!!','a sine wave']
