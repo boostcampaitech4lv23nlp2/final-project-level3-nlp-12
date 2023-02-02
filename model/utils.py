@@ -9,8 +9,6 @@ def convert_video_to_audio_moviepy(video_file, output_ext="mp3"):
     clip = VideoFileClip(video_file)
     clip.audio.write_audiofile(f"{filename}.{output_ext}")
 
-
-
 def sent2prompt(sentiment, n_seg):
     prompt_seg = {
         'anger' : ['aggressive','wu-tang track', 'angry rap', 'Daft Punk', '150-180 BPM'],
@@ -27,12 +25,10 @@ def sent2prompt(sentiment, n_seg):
 
 def video_music_merge(video, audio, output_dir):
     start, end, composite = 0, len(video), False
-
     # load the video
     video_clip = VideoFileClip(video)
     # load the audio
     audio_clip = AudioFileClip(audio)
-
     # use the volume factor to increase/decrease volume
     #audio_clip = audio_clip.volumex(volume_factor)
     # if end is not set, use video clip's end
@@ -41,7 +37,6 @@ def video_music_merge(video, audio, output_dir):
     # make sure audio clip is less than video clip in duration
     # setting the start & end of the audio clip to `start` and `end` paramters
     audio_clip = audio_clip.subclip(start, end)
-
     # composite with the existing audio in the video if composite parameter is set
     if composite:
         final_audio = CompositeAudioClip([video_clip.audio, audio_clip])
@@ -49,7 +44,6 @@ def video_music_merge(video, audio, output_dir):
         final_audio = audio_clip
     # add the final audio to the video
     final_clip = video_clip.set_audio(final_audio)
-
     # save the final clip
     final_clip.write_videofile(output_dir, codec='libx264')
 
