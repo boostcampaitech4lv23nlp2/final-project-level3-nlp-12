@@ -9,6 +9,9 @@ import numpy as np
 from riffusion.cli import audio_to_image
 import pydub
 from pydub import AudioSegment
+import GPUtil
+import torch
+import gc
 
 def main():
     parser = argparse.ArgumentParser()
@@ -72,7 +75,12 @@ def stt_to_rif(output_dir, code, sentiment_result):
             audio_seg = concat_seg
         else:
             audio_seg += concat_seg
+        
+        del segment, riffusion, seed_audio, seed_image, clip
 
+        gc.collect()
+        torch.cuda.empty_cache()
+        GPUtil.showUtilization()
     audio_seg.export(output_audio_path, format="mp3")
     # TODO 모델팀 최종 output에 따라 파일 이름 규칙 정하기
     print(output_audio_path)

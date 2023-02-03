@@ -13,6 +13,7 @@ def convert_video_to_audio(video_path, output_dir_path, audio_path):
     that uses `ffmpeg` under the hood"""
     # os.system(f'pip install spleeter')
     my_clip = mp.VideoFileClip(f"{video_path}")
+    my_clip.audio = my_clip.audio.subclip(0,100)
     my_clip.audio.write_audiofile(f"{audio_path}")
     os.system(f"spleeter separate -p spleeter:2stems -o {output_dir_path} {audio_path}")
     audio_folder = audio_path.split('/')[-1][:-4]
@@ -49,7 +50,8 @@ def sent2prompt(sentiment, n_seg):
     }
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     prompt = ' '.join(random.sample(prompt_seg[sentiment], n_seg))
-    seed_audio = os.path.join(BASE_DIR, f'riffusion/seed_images/{sentiment}/'+ random.choice(os.listdir(os.path.join(BASE_DIR, f'riffusion/seed_images/{sentiment}'))))
+    seed_audio = os.path.join(BASE_DIR, f'riffusion/seed_images/{sentiment}/'+ random.choice([i for i in os.listdir(os.path.join(BASE_DIR, f'riffusion/seed_images/{sentiment}')) if 're' in i]))
+    #os.listdir(os.path.join(BASE_DIR, f'riffusion/seed_images/{sentiment}'))
     return prompt, seed_audio
 
 def merge_music(file1, file2, merged_music_path):
@@ -68,19 +70,19 @@ def merge_music(file1, file2, merged_music_path):
     merged_audio.export(f"{merged_music_path}", format="mp3")
 
 def video_music_merge(video, audio, output_dir):
-    start, end, composite = 0, len(video), False
+    start, end, composite = 0, 100, False
     # load the video
-    video_clip = VideoFileClip(video)
+    video_clip = VideoFileClip(video).subclip(start, end)
     # load the audio
     audio_clip = AudioFileClip(audio)
     # use the volume factor to increase/decrease volume
     #audio_clip = audio_clip.volumex(volume_factor)
     # if end is not set, use video clip's end
-    if not end:
-        end = audio_clip.end
+    #if not end:
+    #   end = audio_clip.end
     # make sure audio clip is less than video clip in duration
     # setting the start & end of the audio clip to `start` and `end` paramters
-    audio_clip = audio_clip.subclip(start, end)
+    #audio_clip = audio_clip.subclip(start, end)
     # composite with the existing audio in the video if composite parameter is set
     if composite:
         final_audio = CompositeAudioClip([video_clip.audio, audio_clip])
