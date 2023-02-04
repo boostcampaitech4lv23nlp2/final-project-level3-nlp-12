@@ -36,6 +36,7 @@ def audio_to_image(
     segment = pydub.AudioSegment.from_file(audio)
 
     params = SpectrogramParams(
+        #sample_rate=8000,
         sample_rate=segment.frame_rate,
         stereo=stereo,
         window_duration_ms=window_duration_ms,
