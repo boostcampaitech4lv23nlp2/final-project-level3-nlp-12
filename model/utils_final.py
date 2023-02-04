@@ -13,7 +13,8 @@ def convert_video_to_audio(video_path, output_dir_path, audio_path):
     that uses `ffmpeg` under the hood"""
     # os.system(f'pip install spleeter')
     my_clip = mp.VideoFileClip(f"{video_path}")
-    my_clip.audio = my_clip.audio.subclip(0,100)
+    if my_clip.duration > 100:
+        my_clip.audio = my_clip.audio.subclip(0,100)
     my_clip.audio.write_audiofile(f"{audio_path}")
     os.system(f"spleeter separate -p spleeter:2stems -o {output_dir_path} {audio_path}")
     audio_folder = audio_path.split('/')[-1][:-4]
@@ -56,9 +57,9 @@ def sent2prompt(sentiment, n_seg):
 
 def merge_music(file1, file2, merged_music_path):
     # load the audio files
-    audio1 = AudioSegment.from_file(file1)
+    #audio1 = new_bgm // audio_2 = vocal
+    audio1 = AudioSegment.from_file(file1) - 3
     audio2 = AudioSegment.from_file(file2)
-
     # merge the audio files
     #merged_audio = audio1.overlay(audio2)
     if audio1.duration_seconds == audio2.duration_seconds:
@@ -72,9 +73,12 @@ def merge_music(file1, file2, merged_music_path):
 def video_music_merge(video, audio, output_dir):
     start, end, composite = 0, 100, False
     # load the video
-    video_clip = VideoFileClip(video).subclip(start, end)
+    video_clip = VideoFileClip(video)
+    end = min(video_clip.duration, end)
+    video_clip = video_clip.subclip(start, end)
     # load the audio
     audio_clip = AudioFileClip(audio)
+    #audio_clip = audio_clip.volumex(volume_factor)
     # use the volume factor to increase/decrease volume
     #audio_clip = audio_clip.volumex(volume_factor)
     # if end is not set, use video clip's end
