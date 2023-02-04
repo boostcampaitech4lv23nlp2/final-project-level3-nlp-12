@@ -1,0 +1,42 @@
+path:
+    train_path: /opt/ml/final/pl/datamodule/iemocap_full_dataset.csv
+    test_path: /opt/ml/input/data/test_dataset/
+    output_path: /opt/ml/input/code/predictions
+
+data:
+    shuffle: True
+    augmentation: # adea, bt 등등
+    
+model:
+    model_name: klue/roberta-large
+    saved_name: base
+
+train:
+    seed: 42
+    gpus: 1
+    batch_size: 1
+    max_epoch: 10
+    logging_step: 1
+
+    
+optimizer:
+    learning_rate: 0.000048666899101127755
+    optimizer_name: AdamW
+    lr_weight_decay: False
+    lr_decay_step: 20
+    lr_sch_use: False
+    scheduler_name: constant_warmup # StepLR, ReduceLROnPlateau, CosineAnnealingLR, constant_warmup
+
+loss:
+    loss_name: CrossEntropy # CrossEntropy, focal, label_smoothing, f1
+
+fold:
+    fold: False
+    nums_folds: 5
+
+wandb:
+    wandb_username: daniel0801
+    wandb_project: mrc_temp
+    wandb_entity: mrc_et
+
+retrieval: elastic # elastic, tf_idf, bm25

@@ -13,10 +13,10 @@ thumbs.db
 serving_test/
 port_test/
 shell/
-
+wandb
 v2m_pipeline.py
 kfp_test/
-
+*.mp4
 v2m_pipeline.py
 kfp_test/
 # Byte-compiled / optimized / DLL files
