@@ -26,7 +26,8 @@ __pycache__/
 *.wav
 # C extensions
 *.so
-
+*.mp4
+wandb
 # VSCode
 .vscode
 

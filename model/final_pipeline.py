@@ -17,7 +17,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--code", default="1", help="code used to verify request") 
     parser.add_argument("--output_dir", default=os.path.join(BASE_DIR, 'tmp'))
-    parser.add_argument("--input_video_path", default='/opt/ml/final/sample_honeybee.mp4')
+    parser.add_argument("--input_video_path", default='/opt/ml/final/serving/input/honeybee.mp4')
     parser.add_argument("--audio_dir_path", default='/opt/ml/final/bgm_removed_audio')
     parser.add_argument("--extract_audio_path", default='/opt/ml/final/extract_audio/audio.mp3')
     parser.add_argument("--model_size", default='large')
