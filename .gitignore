@@ -157,3 +157,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+serving/input/
+serving/output/
+serving/app/test_main.py
+kubernetes/kubeflow/02050607_pipeline.yaml
+riffusion/seed_images/
+tmp/
+kubernetes/kubeflow/server_secret_key.p

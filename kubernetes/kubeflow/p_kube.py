@@ -1,61 +1,59 @@
 import kfp
-from kfp.components import create_component_from_func
 from kfp import onprem
+from kfp.components import create_component_from_func
+from kfp.dsl import pipeline, ParallelFor
+import pickle
 
-def first_stage(value_1: int) -> int:
+def first_stage(cnt: int) -> str:
     import paramiko
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect('101.101.209.53', username='root', port='2234', key_filename='/var/data/jd_key')
-
-    stdin, stdout, stderr = ssh.exec_command(f'cd /opt/ml/code && python test.py {value_1}')
-    ret = stdout.readlines()
-    ret = int(*ret)
+    ssh.connect('101.101.209.53', username='root', port='2235', key_filename='/var/data/jd_key',password='1234') 
+    stdin, stdout, stderr = ssh.exec_command(f'cd /opt/ml/final/model && conda activate JD && python final_pre_to_stt.py --input_video_path /opt/ml/final/serving/input/video_{cnt}.mp4')
+    results = stdout.readlines()
+    sentiment_string =results[-1].strip()
     stdin.close()
     ssh.close()
 
-    return ret
+    return sentiment_string
 
-def second_stage(value_1: int, ip: str, port: str, key: str, pw: str) -> str:
+def second_stage(sentiment_string: str, ip: str, port: str, key: str, pw: str, conda: str, cnt: int) -> str:
     import paramiko
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(ip, username='root', port=port, key_filename=f'/var/data/{key}_key',password=pw)
-
-    stdin, stdout, stderr = ssh.exec_command('echo hi')
-    ret = stdout.readlines()
-    ret = str(ret)
+    ssh.connect(ip, username='root', port=port, key_filename=f'/var/data/{key}_key',password=pw) 
+    
+    stdin, stdout, stderr = ssh.exec_command(f'cd /opt/ml/final/model && conda activate {conda} && python final_stt_to_rif.py --sentiment_string "{sentiment_string}" --code "{cnt}"')
+    results = stdout.readlines()
     stdin.close()
     ssh.close()
-
+    ret = "Compelete"
     return ret
 
 first_stage_op = create_component_from_func(first_stage, packages_to_install=['paramiko==3.0.0'])
 second_stage_op = create_component_from_func(second_stage, packages_to_install=['paramiko==3.0.0'])
 
-from kfp.dsl import pipeline
-from kfp.dsl import ParallelFor
 
 @pipeline(name="test_pipeline")
-def my_pipeline(value_1: int):
+def my_pipeline(count: int):
     pvc_name="kfpvc"
     volume_name="pipeline"
     volume_mount_path="var/data"
-
-    gw = {'ip': '118.67.133.154', 'port': '2239', 'key': 'gw', 'pw' : '1263'}
-    yc = {'ip': '27.96.134.124', 'port': '2238', 'key': 'yc', 'pw' : '0801'}
-    sol = {'ip': '118.67.133.198', 'port': '2242', 'key': 'sol', 'pw' : '1234'}
-    dw = {'ip': '118.67.142.47', 'port': '2233', 'key': 'dw', 'pw' : 'eks3242'}
-    my_dict = [gw,yc,sol,dw]
-
-    task_1 = first_stage_op(value_1).apply(onprem.mount_pvc(pvc_name, volume_name=volume_name, volume_mount_path=volume_mount_path))
     
-    with ParallelFor(my_dict) as item:
-        second_stage_op(task_1.output, item.ip, item.port, item.key, item.pw).apply(onprem.mount_pvc(pvc_name, volume_name=volume_name, volume_mount_path=volume_mount_path))
-        
+    with open('server_secret_key.p', 'rb') as file:
+        gw = pickle.load(file)
+        yc = pickle.load(file)
+        sol = pickle.load(file)
+        dw = pickle.load(file)
+    server_secret_key = [gw,yc,sol,dw]
+
+    task_1 = first_stage_op(count).apply(onprem.mount_pvc(pvc_name, volume_name=volume_name, volume_mount_path=volume_mount_path))   
+    with ParallelFor(server_secret_key) as item:
+        second_stage_op(task_1.output, item.ip, item.port, item.key, item.pw, item.conda, count).apply(onprem.mount_pvc(pvc_name, volume_name=volume_name, volume_mount_path=volume_mount_path))
+    
 if __name__ == '__main__':
     kfp.compiler.Compiler().compile(
         my_pipeline,
-        "./kube_p_pipeline.yaml"
+        "./02050600_pipeline.yaml"
     )
     print("Compelete")
