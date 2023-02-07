@@ -22,8 +22,8 @@ class SentimentModel():
             sentiments.append(result[0]['label'])
         sentiment = None
         contents = []
-        min = 5
-        max = 20
+        min = 4
+        max = 30
         start = 0
         for idx, (x, y) in enumerate(zip(sentiments, self.time)):
             if sentiment == None:
