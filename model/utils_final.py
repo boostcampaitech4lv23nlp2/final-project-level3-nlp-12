@@ -34,7 +34,8 @@ def audio_to_sentiment(model_size, input_file):
 
     sentiment_task = SentimentModel(input_txt, timeline)
     sentiments = sentiment_task.run()
-    print(*list(chain(*sentiments)))
+#    print(*list(chain(*sentiments)))
+    #sentiment_output = ' '.join(map(str,list(chain(*sent))))
     sentiment_output = list(chain(*sentiments))
     # with open(os.path.join(args.output_dir, f'sentiments_{args.code}.pickle'), 'wb') as fw:
     #     pickle.dump(sentiments, fw)
@@ -70,7 +71,7 @@ def merge_music(file1, file2, merged_music_path):
         merged_audio = audio1[:audio2.duration_seconds*1000].overlay(audio2)
     merged_audio.export(f"{merged_music_path}", format="mp3")
 
-def video_music_merge(video, audio, output_dir):
+def video_music_merge(video, audio, output_dir, code):
     start, end, composite = 0, 100, False
     # load the video
     video_clip = VideoFileClip(video)
@@ -95,7 +96,7 @@ def video_music_merge(video, audio, output_dir):
     # add the final audio to the video
     final_clip = video_clip.set_audio(final_audio)
     # save the final clip
-    final_clip.write_videofile(f'{output_dir}/final_video.mp4', codec='libx264')
+    final_clip.write_videofile(f'{output_dir}/video_{code}.mp4', codec='libx264')
 
 
 

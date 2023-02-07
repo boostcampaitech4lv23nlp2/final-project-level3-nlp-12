@@ -16,24 +16,28 @@ import gc
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--code", default="1", help="code used to verify request") 
-    parser.add_argument("--output_dir", default=os.path.join(BASE_DIR, 'tmp'))
+    parser.add_argument("--output_dir", default=os.path.join(BASE_DIR, 'serving/output'))
     parser.add_argument("--input_video_path", default='/opt/ml/final/sample_honeybee.mp4')
     parser.add_argument("--audio_dir_path", default='/opt/ml/final/bgm_removed_audio')
     parser.add_argument("--extract_audio_path", default='/opt/ml/final/extract_audio/audio.mp3')
-    parser.add_argument("--sentiment_result", default='[0 25 None 25 67 None 67 72 None 72 80 surprise 80 87 fear 87 93 anger 93 100 fear]')
-    
+    parser.add_argument("--sentiment_result", default='0 25 None 25 67 anger 67 72 None 72 80 surprise 80 87 fear 87 93 anger 93 100 fear')
+    #[0 25 None 25 67 None 67 72 None 72 80 surprise 80 87 fear 87 93 anger 93 100 fear]
+    # current_input: [0 25 None 25 67 None 67 72 None 72 80 surprise 80 87 fear 87 93 anger 93 100 fear]
+    # input : '0 25 None 25 67 None 67 72 None 72 80 surprise 80 87 fear 87 93 anger 93 100 fear'
+
     args, _ = parser.parse_known_args()
     audio_folder = args.extract_audio_path.split('/')[-1][:-4]
     vocal_file_path = f'{args.audio_dir_path}/{audio_folder}/vocals.wav'
     
-    new_bgm = stt_to_rif(args.output_dir, args.code, args.sentiment_result)
+    sentiment_result = list(args.sentiment_result.split(' '))
+    new_bgm = stt_to_rif(args.output_dir, args.code, sentiment_result)
     
     final_path = f'{args.output_dir}/final'
     if not os.path.exists(final_path):
         os.makedirs(final_path)
     merged_music_path = f'{final_path}/merged_music.mp3' #merged_music / format 'mp3'
     merge_music(new_bgm, vocal_file_path, merged_music_path)
-    video_music_merge(args.input_video_path, merged_music_path, final_path)
+    video_music_merge(args.input_video_path, merged_music_path, final_path, args.code)
     print(f'final video file created in {final_path} directory')
 
 def stt_to_rif(output_dir, code, sentiment_result):
@@ -58,9 +62,14 @@ def stt_to_rif(output_dir, code, sentiment_result):
         segment = pydub.AudioSegment.from_file(seed_audio)
         output_dir_path = os.path.join(BASE_DIR, f'riffusion/seed_images/{s[2]}')
         extension = 'wav'
+        #sample audio segement duration
         segment_duration_ms = int(segment.duration_seconds * 1000)
         clip_start_ms = np.random.randint(0, segment_duration_ms - duration_ms)
-        clip = segment[clip_start_ms : clip_start_ms + 5000]
+        # 5 sec limit for riffusion model
+        #clip = segment[clip_start_ms : clip_start_ms + 5000]
+        #without sec limit
+        clip = segment[clip_start_ms:]
+
         clip_path = os.path.join(output_dir_path, 'test'+str(i)+'.wav')
         clip.export(clip_path, format=extension)
         audio_to_image(audio=clip_path, image=os.path.join(BASE_DIR, f'riffusion/seed_images/{s[2]}.png'))
@@ -77,6 +86,7 @@ def stt_to_rif(output_dir, code, sentiment_result):
         gc.collect()
         torch.cuda.empty_cache()
         GPUtil.showUtilization()
+
     audio_seg.export(output_audio_path, format="mp3")
     # TODO 모델팀 최종 output에 따라 파일 이름 규칙 정하기
     print(output_audio_path)
