@@ -32,7 +32,7 @@ def main():
         os.makedirs(final_path)
     merged_music_path = f'{final_path}/merged_music.mp3' #merged_music / format 'mp3'
     merge_music(new_bgm, vocal_file_path, merged_music_path)
-    video_music_merge(args.input_video_path, merged_music_path, final_path)
+    video_music_merge(args.input_video_path, merged_music_path, final_path, args.code)
     print(f'final video file created in {final_path} directory')
 
 def pre_to_stt(input_video_path, output_dir_path, extract_audio_path, model_size):

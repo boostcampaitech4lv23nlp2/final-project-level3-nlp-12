@@ -96,7 +96,7 @@ def video_music_merge(video, audio, output_dir, code):
     # add the final audio to the video
     final_clip = video_clip.set_audio(final_audio)
     # save the final clip
-    final_clip.write_videofile(f'{output_dir}/video_{code}.mp4', codec='libx264')
+    final_clip.write_videofile(f'{output_dir}/video_{code}.mp4', codec='libx264', fps=final_clip.fps)
 
 
 
