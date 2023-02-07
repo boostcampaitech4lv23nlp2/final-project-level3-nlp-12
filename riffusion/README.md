@@ -125,6 +125,10 @@ Riffusion contains a [streamlit](https://streamlit.io/) app for interactive use 
 Run with:
 ```
 python -m streamlit run riffusion/streamlit/playground.py --browser.serverAddress 127.0.0.1 --browser.serverPort 8501
+
+if inotify error occured, Run with
+ 
+python -m streamlit run riffusion/streamlit/playground.py --browser.serverAddress 127.0.0.1 --browser.serverPort 8501 --server.fileWatcherType none
 ```
 
 And access at http://127.0.0.1:8501/
