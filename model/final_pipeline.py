@@ -32,7 +32,7 @@ def main():
         os.makedirs(final_path)
     merged_music_path = f'{final_path}/merged_music.mp3' #merged_music / format 'mp3'
     merge_music(new_bgm, vocal_file_path, merged_music_path)
-    video_music_merge(args.input_video_path, merged_music_path, final_path)
+    video_music_merge(args.input_video_path, merged_music_path, final_path, args.code)
     print(f'final video file created in {final_path} directory')
 
 def pre_to_stt(input_video_path, output_dir_path, extract_audio_path, model_size):
@@ -57,14 +57,14 @@ def stt_to_rif(output_dir, code, sentiment_result):
                 audio_seg += AudioSegment.silent(duration=int(s[1]-s[0])* 1000)
             continue
         prompt, seed_audio = sent2prompt(s[2], 1) # s[2]는 감정(sadness, joy 등)이고, prompt와 seed image(둘다 리스트 4개) 반환
-        width = int((s[1]-s[0]) // 5 + 1) # interpolation step으로 1당 5초로 계산
+        width = int((s[1]-s[0]) // 10 + 1) # interpolation step으로 1당 5초로 계산
         duration_ms = s[1]-s[0]
         segment = pydub.AudioSegment.from_file(seed_audio)
         output_dir_path = os.path.join(BASE_DIR, f'riffusion/seed_images/{s[2]}')
         extension = 'wav'
         segment_duration_ms = int(segment.duration_seconds * 1000)
         clip_start_ms = np.random.randint(0, segment_duration_ms - duration_ms)
-        clip = segment[clip_start_ms : clip_start_ms + 5000]
+        clip = segment[clip_start_ms : clip_start_ms + 10000]
         clip_path = os.path.join(output_dir_path, 'test'+str(i)+'.wav')
         clip.export(clip_path, format=extension)
         audio_to_image(audio=clip_path, image=os.path.join(BASE_DIR, f'riffusion/seed_images/{s[2]}.png'))
