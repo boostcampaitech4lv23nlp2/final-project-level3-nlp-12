@@ -22,7 +22,7 @@ def main():
         sentiments = pickle.load(fw)
     audio_seg = None
     for i, s in enumerate(sentiments):
-        if s[2] == None:
+        if s[2] == 'None':
             if audio_seg == None:
                 audio_seg = AudioSegment.silent(duration=int(s[1]-s[0])* 1000)
             else:

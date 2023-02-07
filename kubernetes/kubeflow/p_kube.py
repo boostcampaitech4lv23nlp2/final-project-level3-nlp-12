@@ -1,5 +1,6 @@
 import kfp
 from kfp import onprem
+from kfp import onprem
 from kfp.components import create_component_from_func
 from kfp.dsl import pipeline, ParallelFor
 import pickle
@@ -16,7 +17,9 @@ def first_stage(cnt: int) -> str:
     ssh.close()
 
     return sentiment_string
+    return sentiment_string
 
+def second_stage(sentiment_string: str, ip: str, port: str, key: str, pw: str, conda: str, cnt: int) -> str:
 def second_stage(sentiment_string: str, ip: str, port: str, key: str, pw: str, conda: str, cnt: int) -> str:
     import paramiko
     ssh = paramiko.SSHClient()
@@ -28,6 +31,7 @@ def second_stage(sentiment_string: str, ip: str, port: str, key: str, pw: str, c
     stdin.close()
     ssh.close()
     ret = "Compelete"
+    ret = "Compelete"
     return ret
 
 first_stage_op = create_component_from_func(first_stage, packages_to_install=['paramiko==3.0.0'])
@@ -35,6 +39,7 @@ second_stage_op = create_component_from_func(second_stage, packages_to_install=[
 
 
 @pipeline(name="test_pipeline")
+def my_pipeline(count: int):
 def my_pipeline(count: int):
     pvc_name="kfpvc"
     volume_name="pipeline"
@@ -47,6 +52,9 @@ def my_pipeline(count: int):
         dw = pickle.load(file)
     server_secret_key = [gw,yc,sol,dw]
 
+    task_1 = first_stage_op(count).apply(onprem.mount_pvc(pvc_name, volume_name=volume_name, volume_mount_path=volume_mount_path))   
+    with ParallelFor(server_secret_key) as item:
+        second_stage_op(task_1.output, item.ip, item.port, item.key, item.pw, item.conda, count).apply(onprem.mount_pvc(pvc_name, volume_name=volume_name, volume_mount_path=volume_mount_path))
     task_1 = first_stage_op(count).apply(onprem.mount_pvc(pvc_name, volume_name=volume_name, volume_mount_path=volume_mount_path))   
     with ParallelFor(server_secret_key) as item:
         second_stage_op(task_1.output, item.ip, item.port, item.key, item.pw, item.conda, count).apply(onprem.mount_pvc(pvc_name, volume_name=volume_name, volume_mount_path=volume_mount_path))
