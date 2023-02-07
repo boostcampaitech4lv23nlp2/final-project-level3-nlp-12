@@ -1,15 +1,14 @@
 #!/bin/bash
 echo "Trainer running"
-accelerate launch text_to_image_lora.py \
+accelerate launch --mixed_precision="fp16" text_to_image_lora.py \
   --pretrained_model_name_or_path="riffusion/riffusion-model-v1" \
-  --dataset_name=$DATASET_NAME \
+  --dataset_name='gwkim22/et_test' \
   --validation_prompt="Validation ON" \
   --output_dir="/opt/ml/final/LORA/output" \
-  --train_batch_size=2 \
-  --gradient_accumulation_steps=4 \
+  --train_batch_size=4 \
+  --gradient_accumulation_steps=2 \
   --gradient_checkpointing \
   --lr_scheduler="cosine_with_restarts" \
   --lr_warmup_steps=0 \
   --seed=42 \
-  --mixed_precision="fp16" \
-  --report_to="wandb" \    
+  --report_to="wandb" 
