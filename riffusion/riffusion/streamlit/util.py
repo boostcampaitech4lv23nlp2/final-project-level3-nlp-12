@@ -29,7 +29,8 @@ def load_riffusion_checkpoint(
     """
     return RiffusionPipeline.load_checkpoint(
         checkpoint=checkpoint,
-        use_traced_unet=not no_traced_unet,
+        # use_traced_unet=not no_traced_unet,
+        use_traced_unet=False,
         device=device,
     )
 

@@ -64,7 +64,8 @@ class RiffusionPipeline(DiffusionPipeline):
     def load_checkpoint(
         cls,
         checkpoint: str,
-        use_traced_unet: bool = True,
+        # use_traced_unet: bool = True,
+        use_traced_unet: bool = False,
         channels_last: bool = False,
         dtype: torch.dtype = torch.float16,
         device: str = "cuda",
@@ -120,6 +121,7 @@ class RiffusionPipeline(DiffusionPipeline):
             if traced_unet is not None:
                 pipeline.unet = traced_unet
 
+        pipeline.unet.load_attn_procs("/opt/ml/final/LORA/output/pytorch_lora_weights.bin")
         model = pipeline.to(device)
 
         return model
