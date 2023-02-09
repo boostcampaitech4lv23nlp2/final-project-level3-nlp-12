@@ -13,7 +13,8 @@ thumbs.db
 serving_test/
 port_test/
 shell/
-
+LORA/output
+LORA/Riffusion
 v2m_pipeline.py
 kfp_test/
 
