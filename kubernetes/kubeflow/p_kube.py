@@ -47,8 +47,6 @@ def my_pipeline(count: int):
         sol = pickle.load(file)
         dw = pickle.load(file)
     server_secret_key = [gw,yc,sol,dw]
-    # server_secret_key = [sol, dw]
-    # server_secret_key = [sol]
 
     task_1 = first_stage_op(count).apply(onprem.mount_pvc(pvc_name, volume_name=volume_name, volume_mount_path=volume_mount_path))   
     with ParallelFor(server_secret_key) as item:
