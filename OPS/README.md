@@ -1,8 +1,8 @@
 # 목차
-1. [Intro](#1.-Intro)
-2. [아키텍처 설계 의도](#2.-아키텍처-설계-의도)
-3. [Kubernetes(K8s)](#3.-Kubernetes(K8s))
-4. [BACKEND](#4.-BACKEND)
+1. [Intro](#1.--Intro)
+2. [아키텍처 설계 의도](#2.--아키텍처-설계-의도)
+3. [Kubernetes(K8s)](#3.--Kubernetes(K8s))
+4. [BACKEND](#4.--BACKEND)
 
 # 1. Intro
 ![architecture](https://user-images.githubusercontent.com/113088158/218088271-670172ad-b43e-4f20-826c-e9cb15000ca2.png)
@@ -26,7 +26,7 @@
 |       ├── back_service.yaml       - API 모델 서버 service
 |       ├── front_deployment.yaml   - webapp deployment
 |       ├── front_service.yaml      - webapp service
-|       └── pod_pvc.yaml            - model 서버 pod
+|       └── pod_pvc.yaml            - Kubeflow pvc 접근용 pod
 └── serving
     ├── README.md
     └── app
