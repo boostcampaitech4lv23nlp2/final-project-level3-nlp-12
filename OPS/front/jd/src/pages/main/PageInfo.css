@@ -1,0 +1,41 @@
+#devide {
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.devide-line {
+  width: 30%;
+  height: 1px;
+  background-color: black;
+  margin: 0px 30px;
+}
+
+#devide-center {
+  font-family: "pretendard-regular", sans-serif;
+  font-size: 18px;
+  color: #aaa;
+}
+
+/* section 1 */
+
+main #info-section {
+  height: 400px;
+}
+
+#info-section-item {
+  width: 70%;
+  margin: 0 auto;
+}
+
+#info-section-item h1 {
+  font-family: "pretendard-bold", sans-serif;
+  font-size: 60px;
+}
+
+#info-section-item p {
+  font-family: "pretendard-medium", sans-serif;
+  font-size: 18px;
+  color: rgb(100, 100, 100);
+}

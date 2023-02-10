@@ -1,0 +1,24 @@
+@font-face {
+  font-family: "black-godic";
+  src: url("./검은고딕.woff") format(woff);
+}
+
+@font-face {
+  font-family: "pretendard-bold";
+  src: url("./Pretendard-Bold.woff") format(woff);
+}
+
+@font-face {
+  font-family: "pretendard-medium";
+  src: url("./Pretendard-Medium.woff") format(woff);
+}
+
+@font-face {
+  font-family: "pretendard-regular";
+  src: url("./Pretendard-Regular.woff") format(woff);
+}
+
+@font-face {
+  font-family: "pretendard-semi-bold";
+  src: url("./Pretendard-SemiBold.woff") format(woff);
+}
