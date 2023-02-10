@@ -1,24 +1,27 @@
 # 1. 웹 서버 실행
 serving 디렉토리에서 아래 명령어 수행
 ```
-python -m app 
+python -m {directory name}
 ```
-# 2. 데모 페이지 접속 URL
+
+# 2. 저장소 구조
+
+
 ```
-http://0.0.0.0:9000
-```
-# 3. 저장소 구조
-```
-serving
-|-- app
-|   |-- __main__.py
-|   `-- main.py          - fast api 실행
-|-- input                - input video(mp4) 데이터의 storage
-|   `-- test_video.mp4
-|-- output               - output music(wav, mp3, ...) 데이터의 storage
-|   |-- test_sound.wav
-|   `-- test_video.mp4
-`-- templates            - html 템플릿
-    |-- index.html
-    `-- result.html
+.
+├── README.md
+├── app
+|   ├── first_stage             - STT와 Sentiment Clssifier 서버
+|   |   ├── __main__.py
+|   |   └── main.py
+|   ├── local_main              - local API 서버
+|   |   ├── __main__.py
+|   |   ├── kubestart.py        - kubeflow 실행
+|   |   ├── main.py
+|   |   └── pipeline.yaml       - kubeflow pipeline
+|   └── second_stage            - Riffusion 서버
+|       ├── __main__.py
+|       └── main.py
+├── input                       - 데이터 upload 경로
+└── output                      - 모델 output 경로
 ```
