@@ -1,16 +1,18 @@
+import os
+import sys
+
+from typing import List
 from fastapi import FastAPI, UploadFile, Form
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
-import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 INPUT_DIR = os.path.join(BASE_DIR, "serving/input")
 OUTPUT_DIR = os.path.join(BASE_DIR, "serving/output")
 
-app = FastAPI()
-
 count = 1
+
+app = FastAPI()
 
 origins = ["*"]
 
@@ -21,16 +23,6 @@ app.add_middleware(
     allow_methods = ["*"],
     allow_headers = ["*"],
 )
-
-@app.get("/file/{count}")
-def download(count: int):
-    '''
-    local 서버에서 count를 받으면 output 경로를 local로 return
-    '''
-    # file_name = f"video_{count}.mp4"
-    file_name = f"video_{count}.mp4"
-    file_path = os.path.join(OUTPUT_DIR, file_name)
-    return FileResponse(file_path)
 
 @app.post("/upload")
 async def upload(file: UploadFile = Form()):
@@ -50,6 +42,3 @@ async def upload(file: UploadFile = Form()):
     count += 1
     
     return "OK"
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=30002)
