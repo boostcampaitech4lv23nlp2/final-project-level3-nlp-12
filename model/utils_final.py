@@ -7,6 +7,8 @@ import torch
 from sum_by_sent import SentimentModel
 from itertools import chain
 from pydub import AudioSegment
+import librosa
+import soundfile as sf
 
 def convert_video_to_audio(video_path, output_dir_path, audio_path):
     """Converts video to audio using MoviePy library
@@ -99,5 +101,11 @@ def video_music_merge(video, audio, output_dir, code):
     final_clip.write_videofile(f'{output_dir}/video_{code}.mp4', codec='libx264', fps=final_clip.fps)
 
 
+
+def sample_rate_convert(input_file, output_file, origin_sr, resample_sr):
+    y, sr = librosa.load(input_file, sr=origin_sr)
+    resampled = librosa.resample(y, orig_sr=sr, target_sr=resample_sr)
+    print(y.shape, sr, '===>' ,resampled.shape)
+    sf.write(output_file, resampled, resample_sr, format='WAV', endian='LITTLE', subtype='PCM_16')
 
 

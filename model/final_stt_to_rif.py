@@ -38,7 +38,9 @@ def main():
         os.makedirs(final_path)
     merged_music_path = f'{final_path}/merged_music.mp3' #merged_music / format 'mp3'
     merge_music(new_bgm, vocal_file_path, merged_music_path)
-    video_music_merge(args.input_video_path, merged_music_path, final_path, args.code)
+    final_music_path = f'{final_path}/resampled_merged_music.mp3'
+    sample_rate_convert(merged_music_path, final_music_path, origin_sr=8000, resample_sr=22050)
+    video_music_merge(args.input_video_path, final_music_path, final_path, args.code)
     print(f'final video file created in {final_path} directory')
 
 def stt_to_rif(output_dir, code, sentiment_result):
