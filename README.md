@@ -39,30 +39,6 @@ boostcamp 4th NLP Final Project :
 <img src="https://user-images.githubusercontent.com/100463560/218309576-e7fe555d-9f2c-4c67-b1d2-205d8957cfdf.png"  width="80%"/>
 </p>
 
-> ### Step1 : 동영상 내용 파악
-
-**Speech-to-Text**
-- Openai의 Whisper model을 사용하여 전체 발화 내용을 텍스트로 추출.
-
-**WHISPER 모델 사용 이유 :**
-- SPEECH RECOGNITION에서 SOTA로 사용되는 wav2vec 2.0 대비 평균적으로 55.2% 낮은 오류율이라는 우수한 성능을 가졌음.
-- Any-to-English speech translation multitask 기능을 제공하기에, STT와 번역기능을 함께 사용할 수 있어 추후 영문 데이터셋 활용 가능한 장점을 가져 선택하게 됨.
-
-> ### Step2 : 동영상 감성 분류
-
-**Sentiment Classifier**
-- 전체 텍스트 내용을 알 수 있으면서 내용의 특징을 살릴 수 있도록, 텍스트 구문별로 감성 분류를 시도함.
-- 전체 텍스트에 대해 구문별로 감성 분석하여 행복,슬픔,역겨움,분노,놀람,두려움, 중립 7가지 감정으로 분류함.
-- 구문별 감성분류 후, 감정 유지기간이 임계값 보다 낮은 경우 해당 감정을 무시했으며, 무시된 감정의 앞뒤로 같은 감정일 경우 그 감정들과 이어진다고 판단하여 대체하는 후처리 과정을 진행.
-- 그 결과 타임라인에 따라 안정된 감정을 파악할 수 있었고, 따라서 Sentiment Classifier 방식을 채택함.
-
-> ### Step3 : 감성에 맞는 BGM 생성
-
-**Riffusion Model 활용 및 학습**
-- 리퓨전은 디퓨전 모델에 소리나 파동을 시각화하여 파악하기 위한 도구인 스펙트로그램을 학습한 모델.
-- Step2에서 얻어진 감성 분류 결과를 prompt로 활용하여 그 감성과 같은 감성의 스펙트로그램을 seed image로 사용함.
-- 사용자 편의를 위해 기존 영상에서 말소리를 제외한 음악이나 노이즈를 삭제하고 생성된 BGM을 합쳐서 최종 결과물을 생성함.
-
 # 4. Dataset
 > ### **Riffusion 추가 학습을 위한 Train Dataset 구축과정**
 <p align="center">
