@@ -89,6 +89,11 @@ weird
   - STFT(Short time fourier transform) → Griffin-Lim → Mel scale
   - Source data의 metadataTags, moods data 활용하여 caption 작성
 
+(5) 최종 dataset
+- gwkim22/spectro_caption_dataset(huggingface)
+  > `https://huggingface.co/datasets/gwkim22/spectro_caption_dataset`
+
+
 # 5. Architecture
 > ### **FlowChart**
 <p align="center">
