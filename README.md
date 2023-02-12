@@ -38,6 +38,7 @@ boostcamp 4th NLP Final Project :
 <p align="center">
 <img src="https://user-images.githubusercontent.com/100463560/218309576-e7fe555d-9f2c-4c67-b1d2-205d8957cfdf.png"  width="80%"/>
 </p>
+<center>Input(동영상) → 동영상 내용파악 → 동영상 감성분류 → 감성에 맞는 BGM 생성 → Output(동영상 with NEW_BGM)</center>
 
 > ### Step1 : 동영상 내용 파악
 
@@ -69,8 +70,24 @@ boostcamp 4th NLP Final Project :
 <img src="https://user-images.githubusercontent.com/100463560/218309579-57e0d7fc-165c-4d4e-bdb9-4e2427b12665.png"  width="50%"/>
 </p>
 
-> ### Dataset : 
-- hugging-face : Chr0my/Epidemic_music
+<center>Input(Source data) → 데이터 추출 → 다운샘플링 → 구간분할 → 전처리 → Output(Spectrogram with caption)</center>
+
+> #### Dataset  
+  (1) Source data로 부터 Sentiment classifier와 유사한 label 선정 및 추출(6680개)
+  - Source_data: Chr0my/Epidemic_music(huggingface)
+    >`https://huggingface.co/datasets/Chr0my/Epidemic_music`
+  - 유사한 7가지 label : angry, fear, funny, happy, quirky, sad, 
+weird
+
+  (2) 추출한 Music file 다운샘플링(22.05khz → 8khz)
+
+  (3) 다운샘플링된 Music file 10초 구간분할(with Random sampling)
+  - Riffusion 모델 학습 데이터와 유사한 샘플 생성위해 10초 구간 설정
+  - 구간 변화에 강건한 모델 학습 위해 Random sampling 수행
+
+  (4) 전처리 수행
+  - STFT(Short time fourier transform) → Griffin-Lim → Mel scale
+  - Source data의 metadataTags, moods data 활용하여 caption 작성
 
 # 5. Architecture
 > ### **FlowChart**
