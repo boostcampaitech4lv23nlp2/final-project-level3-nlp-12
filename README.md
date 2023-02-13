@@ -128,6 +128,8 @@ weird
 ### **Environment**
 ```
 Ubuntu 18.04.5 LTS
+CPU : Intel(R) Xeon(R) Gold 5120 CPU @ 2.20GHz x 8
+GPU : Tesla V100-PCIE-32GB
 Python Version 3.9
 ```
 
