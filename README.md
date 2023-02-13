@@ -27,6 +27,11 @@ boostcamp 4th NLP Final Project :
 [Github](https://github.com/gwkim22)|[Github](https://github.com/ask2DK)|[Github](https://github.com/Sdragonc)|[Github](https://github.com/JdRion)|[Github](https://github.com/seokhee516)
 </div>
 
+
+<img src='https://user-images.githubusercontent.com/100463560/207283821-75407391-eb7a-41c1-a520-e26a7fb805a1.jpg' height=120 width=120></img><br>김건우</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&logoColor=white&link=https://github.com/gwkim22"/>|<img src='https://user-images.githubusercontent.com/100463560/207283858-cc89f5ba-b5fb-4c61-94e7-4112aca1857c.jpg' height=120 width=120></img><br>백단익</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&link=https://github.com/ask2DK"/>|<img src='https://user-images.githubusercontent.com/100463560/207284092-534792f0-6315-4fb1-8e54-f041d55d458e.jpg' height=120 width=120></img><br>손용찬</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&link=https://github.com/Sdragonc"/>|<img src='https://user-images.githubusercontent.com/100463560/207284128-7603761a-8c26-46e3-bbe7-ca46f4cadfcb.jpg' height=120 width=120></img><br>이재덕</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&link=https://github.com/JdRion"/>|<img src='https://user-images.githubusercontent.com/100463560/207284181-1bd26ed3-cbf2-4aae-9ba2-8c0f9162f091.jpg' height=120 width=120></img><br>정석희</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&link=https://github.com/seokhee516"/>
+:-:|:-:|:-:|:-:|:-:
+
+
 ### Contribution
 `김건우` : 모델 학습, 파이프라인 설계, Riffusion <br>
 `백단익` : 모델 설계 및 분석, whisper <br>
