@@ -1,6 +1,6 @@
 import zlib
-from typing import Iterator, TextIO
 
+from typing import Iterator, TextIO
 
 def exact_div(x, y):
     assert x % y == 0
@@ -28,7 +28,7 @@ def compression_ratio(text) -> float:
     return len(text_bytes) / len(zlib.compress(text_bytes))
 
 
-def format_timestamp(seconds: float, always_include_hours: bool = False, decimal_marker: str = '.'):
+def format_timestamp(seconds: float, always_include_hours: bool = False, decimal_marker: str = "."):
     assert seconds >= 0, "non-negative timestamp expected"
     milliseconds = round(seconds * 1000.0)
 
@@ -47,7 +47,7 @@ def format_timestamp(seconds: float, always_include_hours: bool = False, decimal
 
 def write_txt(transcript: Iterator[dict], file: TextIO):
     for segment in transcript:
-        print(segment['text'].strip(), file=file, flush=True)
+        print(segment["text"].strip(), file=file, flush=True)
 
 
 def write_vtt(transcript: Iterator[dict], file: TextIO):

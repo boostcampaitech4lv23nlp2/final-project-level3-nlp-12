@@ -2,16 +2,17 @@ import shutil
 import subprocess
 import tempfile
 import typing as T
+
 from pathlib import Path
 
 import numpy as np
 import pydub
 import torch
 import torchaudio
+
 from torchaudio.transforms import Fade
 
 from riffusion.util import audio_util
-
 
 def split_audio(
     segment: pydub.AudioSegment,

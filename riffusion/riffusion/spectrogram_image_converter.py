@@ -1,11 +1,11 @@
 import numpy as np
 import pydub
+
 from PIL import Image
 
 from riffusion.spectrogram_converter import SpectrogramConverter
 from riffusion.spectrogram_params import SpectrogramParams
 from riffusion.util import image_util
-
 
 class SpectrogramImageConverter:
     """

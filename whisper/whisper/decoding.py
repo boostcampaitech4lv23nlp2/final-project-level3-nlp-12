@@ -1,9 +1,10 @@
 from dataclasses import dataclass, field
-from typing import Dict, List, Tuple, Iterable, Optional, Sequence, Union, TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict, Iterable, List, Optional, Sequence, Tuple, Union
 
 import numpy as np
 import torch
 import torch.nn.functional as F
+
 from torch import Tensor
 from torch.distributions import Categorical
 
@@ -76,24 +77,24 @@ class DecodingOptions:
     # sampling-related options
     temperature: float = 0.0
     sample_len: Optional[int] = None  # maximum number of tokens to sample
-    best_of: Optional[int] = None     # number of independent samples to collect, when t > 0
-    beam_size: Optional[int] = None   # number of beams in beam search, when t == 0
+    best_of: Optional[int] = None  # number of independent samples to collect, when t > 0
+    beam_size: Optional[int] = None  # number of beams in beam search, when t == 0
     patience: Optional[float] = None  # patience in beam search (https://arxiv.org/abs/2204.05424)
 
     # options for ranking generations (either beams or best-of-N samples)
-    length_penalty: Optional[float] = None   # "alpha" in Google NMT, None defaults to length norm
+    length_penalty: Optional[float] = None  # "alpha" in Google NMT, None defaults to length norm
 
     # prompt, prefix, and token suppression
-    prompt: Optional[Union[str, List[int]]] = None   # text or tokens for the previous context
-    prefix: Optional[Union[str, List[int]]] = None   # text or tokens to prefix the current context
-    suppress_blank: bool = True                      # this will suppress blank outputs
+    prompt: Optional[Union[str, List[int]]] = None  # text or tokens for the previous context
+    prefix: Optional[Union[str, List[int]]] = None  # text or tokens to prefix the current context
+    suppress_blank: bool = True  # this will suppress blank outputs
 
     # list of tokens ids (or comma-separated token ids) to suppress
     # "-1" will suppress a set of symbols as defined in `tokenizer.non_speech_tokens()`
     suppress_tokens: Optional[Union[str, Iterable[int]]] = "-1"
 
     # timestamp sampling options
-    without_timestamps: bool = False              # use <|notimestamps|> to sample text tokens only
+    without_timestamps: bool = False  # use <|notimestamps|> to sample text tokens only
     max_initial_timestamp: Optional[float] = 1.0  # the initial timestamp cannot be later than this
 
     # implementation details
@@ -221,9 +222,7 @@ class TokenDecoder:
         """
         raise NotImplementedError
 
-    def finalize(
-        self, tokens: Tensor, sum_logprobs: Tensor
-    ) -> Tuple[Sequence[Sequence[Tensor]], List[List[float]]]:
+    def finalize(self, tokens: Tensor, sum_logprobs: Tensor) -> Tuple[Sequence[Sequence[Tensor]], List[List[float]]]:
         """Finalize search and return the final candidate sequences
 
         Parameters
@@ -339,9 +338,7 @@ class BeamSearchDecoder(TokenDecoder):
                 previously_finished[seq] = newly_finished[seq]
 
         # mark as completed if all audio has enough number of samples
-        completed = all(
-            len(sequences) >= self.max_candidates for sequences in self.finished_sequences
-        )
+        completed = all(len(sequences) >= self.max_candidates for sequences in self.finished_sequences)
         return tokens, completed
 
     def finalize(self, preceding_tokens: Tensor, sum_logprobs: Tensor):
@@ -358,9 +355,7 @@ class BeamSearchDecoder(TokenDecoder):
         tokens: List[List[Tensor]] = [
             [torch.tensor(seq) for seq in sequences.keys()] for sequences in self.finished_sequences
         ]
-        sum_logprobs: List[List[float]] = [
-            list(sequences.values()) for sequences in self.finished_sequences
-        ]
+        sum_logprobs: List[List[float]] = [list(sequences.values()) for sequences in self.finished_sequences]
         return tokens, sum_logprobs
 
 
@@ -399,9 +394,7 @@ class SuppressTokens(LogitFilter):
 
 
 class ApplyTimestampRules(LogitFilter):
-    def __init__(
-        self, tokenizer: Tokenizer, sample_begin: int, max_initial_timestamp_index: Optional[int]
-    ):
+    def __init__(self, tokenizer: Tokenizer, sample_begin: int, max_initial_timestamp_index: Optional[int]):
         self.tokenizer = tokenizer
         self.sample_begin = sample_begin
         self.max_initial_timestamp_index = max_initial_timestamp_index
@@ -475,9 +468,7 @@ class DecodingTask:
 
         # decoder: implements how to select the next tokens, given the autoregressive distribution
         if options.beam_size is not None:
-            self.decoder = BeamSearchDecoder(
-                options.beam_size, tokenizer.eot, self.inference, options.patience
-            )
+            self.decoder = BeamSearchDecoder(options.beam_size, tokenizer.eot, self.inference, options.patience)
         else:
             self.decoder = GreedyDecoder(options.temperature, tokenizer.eot)
 
@@ -492,9 +483,7 @@ class DecodingTask:
             max_initial_timestamp_index = None
             if options.max_initial_timestamp:
                 max_initial_timestamp_index = round(self.options.max_initial_timestamp / precision)
-            self.logit_filters.append(
-                ApplyTimestampRules(tokenizer, self.sample_begin, max_initial_timestamp_index)
-            )
+            self.logit_filters.append(ApplyTimestampRules(tokenizer, self.sample_begin, max_initial_timestamp_index))
 
     def _verify_options(self, options: DecodingOptions) -> DecodingOptions:
         if options.beam_size is not None and options.best_of is not None:
@@ -515,18 +504,14 @@ class DecodingTask:
         prompt = self.options.prompt
 
         if prefix:
-            prefix_tokens = (
-                self.tokenizer.encode(" " + prefix.strip()) if isinstance(prefix, str) else prefix
-            )
+            prefix_tokens = self.tokenizer.encode(" " + prefix.strip()) if isinstance(prefix, str) else prefix
             if self.sample_len is not None:
                 max_prefix_len = self.n_ctx // 2 - self.sample_len
                 prefix_tokens = prefix_tokens[-max_prefix_len:]
             tokens = tokens + prefix_tokens
 
         if prompt:
-            prompt_tokens = (
-                self.tokenizer.encode(" " + prompt.strip()) if isinstance(prompt, str) else prompt
-            )
+            prompt_tokens = self.tokenizer.encode(" " + prompt.strip()) if isinstance(prompt, str) else prompt
             tokens = [self.tokenizer.sot_prev] + prompt_tokens[-(self.n_ctx // 2 - 1) :] + tokens
 
         return tuple(tokens)
@@ -545,9 +530,7 @@ class DecodingTask:
         else:
             assert isinstance(suppress_tokens, list), "suppress_tokens must be a list"
 
-        suppress_tokens.extend(
-            [self.tokenizer.sot, self.tokenizer.sot_prev, self.tokenizer.sot_lm]
-        )
+        suppress_tokens.extend([self.tokenizer.sot, self.tokenizer.sot_prev, self.tokenizer.sot_lm])
         if self.tokenizer.no_speech is not None:
             # no-speech probability is collected separately
             suppress_tokens.append(self.tokenizer.no_speech)
@@ -678,7 +661,9 @@ class DecodingTask:
 
 
 @torch.no_grad()
-def decode(model: "Whisper", mel: Tensor, options: DecodingOptions = DecodingOptions()) -> Union[DecodingResult, List[DecodingResult]]:
+def decode(
+    model: "Whisper", mel: Tensor, options: DecodingOptions = DecodingOptions()
+) -> Union[DecodingResult, List[DecodingResult]]:
     """
     Performs decoding of 30-second audio segment(s), provided as Mel spectrogram(s).
 
@@ -703,7 +688,7 @@ def decode(model: "Whisper", mel: Tensor, options: DecodingOptions = DecodingOpt
         mel = mel.unsqueeze(0)
 
     result = DecodingTask(model, options).run(mel)
-    
+
     if single:
         result = result[0]
 

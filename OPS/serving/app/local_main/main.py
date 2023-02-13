@@ -1,7 +1,10 @@
+import time
+
 from typing import Optional
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import time
+
 from .kubestart import start
 
 app = FastAPI()
@@ -11,19 +14,21 @@ origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = origins,
-    allow_credentials = True,
-    allow_methods = ["*"],
-    allow_headers = ["*"],
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
 
 @app.get("/")
 def root():
-    return{"hello":"world"}
+    return {"hello": "world"}
+
 
 @app.get("/signal")
 def signal_root():
     global count
-    count +=1
-    start(count) 
+    count += 1
+    start(count)
     return f"{count}"

@@ -1,16 +1,15 @@
 from dataclasses import dataclass
-from typing import Dict
-from typing import Iterable, Optional
+from typing import Dict, Iterable, Optional
 
 import numpy as np
 import torch
 import torch.nn.functional as F
-from torch import Tensor
-from torch import nn
 
+from torch import Tensor, nn
+
+from .decoding import decode as decode_function
+from .decoding import detect_language as detect_language_function
 from .transcribe import transcribe as transcribe_function
-from .decoding import detect_language as detect_language_function, decode as decode_function
-
 
 @dataclass
 class ModelDimensions:
@@ -33,16 +32,12 @@ class LayerNorm(nn.LayerNorm):
 
 class Linear(nn.Linear):
     def forward(self, x: Tensor) -> Tensor:
-        return F.linear(
-            x, self.weight.to(x.dtype), None if self.bias is None else self.bias.to(x.dtype)
-        )
+        return F.linear(x, self.weight.to(x.dtype), None if self.bias is None else self.bias.to(x.dtype))
 
 
 class Conv1d(nn.Conv1d):
     def _conv_forward(self, x: Tensor, weight: Tensor, bias: Optional[Tensor]) -> Tensor:
-        return super()._conv_forward(
-            x, weight.to(x.dtype), None if bias is None else bias.to(x.dtype)
-        )
+        return super()._conv_forward(x, weight.to(x.dtype), None if bias is None else bias.to(x.dtype))
 
 
 def sinusoids(length, channels, max_timescale=10000):

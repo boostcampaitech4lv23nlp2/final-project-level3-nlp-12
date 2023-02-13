@@ -1,11 +1,11 @@
 import tempfile
 import typing as T
+
 from pathlib import Path
 
 import numpy as np
 import pydub
 import streamlit as st
-
 
 def render_sample_clips() -> None:
     st.set_page_config(layout="wide", page_icon="🎸")

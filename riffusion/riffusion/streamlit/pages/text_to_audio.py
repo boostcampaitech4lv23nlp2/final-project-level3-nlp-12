@@ -5,7 +5,6 @@ import streamlit as st
 from riffusion.spectrogram_params import SpectrogramParams
 from riffusion.streamlit import util as streamlit_util
 
-
 def render_text_to_audio() -> None:
     st.set_page_config(layout="wide", page_icon="🎸")
 

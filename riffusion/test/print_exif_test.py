@@ -5,7 +5,6 @@ from riffusion.cli import print_exif
 
 from .test_case import TestCase
 
-
 class PrintExifTest(TestCase):
     """
     Test riffusion.cli print-exif

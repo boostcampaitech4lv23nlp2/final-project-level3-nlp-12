@@ -16,7 +16,6 @@ import torch
 
 from diffusers import StableDiffusionPipeline
 
-
 logger = logging.getLogger(__name__)
 
 

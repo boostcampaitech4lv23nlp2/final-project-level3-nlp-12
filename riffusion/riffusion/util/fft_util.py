@@ -8,8 +8,8 @@ import typing as T
 import numpy as np
 import plotly.graph_objects as go
 import pydub
-from scipy.fft import rfft, rfftfreq
 
+from scipy.fft import rfft, rfftfreq
 
 def plot_ffts(
     segments: T.Dict[str, pydub.AudioSegment],

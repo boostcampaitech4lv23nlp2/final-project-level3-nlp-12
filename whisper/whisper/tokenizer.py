@@ -1,10 +1,12 @@
 import os
+
 from dataclasses import dataclass
 from functools import lru_cache
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
 import torch
+
 from transformers import GPT2TokenizerFast
 
 LANGUAGES = {
@@ -245,7 +247,7 @@ class Tokenizer:
 
         keeping basic punctuations like commas, periods, question marks, exclamation points, etc.
         """
-        symbols = list("\"#()*+/:;<=>@[\\]^_`{|}~「」『』")
+        symbols = list('"#()*+/:;<=>@[\\]^_`{|}~「」『』')
         symbols += "<< >> <<< >>> -- --- -( -[ (' (\" (( )) ((( ))) [[ ]] {{ }} ♪♪ ♪♪♪".split()
 
         # symbols that may be a single token or multiple tokens depending on the tokenizer.

@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import typing as T
+
 from dataclasses import dataclass
 from enum import Enum
-
 
 @dataclass(frozen=True)
 class SpectrogramParams:

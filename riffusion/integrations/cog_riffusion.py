@@ -11,6 +11,7 @@ import typing as T
 import numpy as np
 import PIL
 import torch
+
 from cog import BaseModel, BasePredictor, Input, Path
 
 from riffusion.datatypes import InferenceInput, PromptInput

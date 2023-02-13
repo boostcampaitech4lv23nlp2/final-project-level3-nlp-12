@@ -10,12 +10,12 @@ import typing as T
 
 import dacite
 import torch
+
 from huggingface_hub import snapshot_download
 
 from riffusion.datatypes import InferenceInput
 from riffusion.riffusion_pipeline import RiffusionPipeline
 from riffusion.server import compute_request
-
 
 class Model:
     """

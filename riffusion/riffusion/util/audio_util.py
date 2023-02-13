@@ -6,8 +6,8 @@ import io
 
 import numpy as np
 import pydub
-from scipy.io import wavfile
 
+from scipy.io import wavfile
 
 def audio_from_waveform(
     samples: np.ndarray, sample_rate: int, normalize: bool = False

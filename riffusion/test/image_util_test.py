@@ -7,7 +7,6 @@ from riffusion.util import image_util
 
 from .test_case import TestCase
 
-
 class ImageUtilTest(TestCase):
     """
     Test riffusion.util.image_util

@@ -4,8 +4,8 @@ import tempfile
 import typing as T
 import unittest
 import warnings
-from pathlib import Path
 
+from pathlib import Path
 
 class TestCase(unittest.TestCase):
     """

@@ -1,17 +1,18 @@
 import dataclasses
 import io
 import typing as T
+
 from pathlib import Path
 
 import numpy as np
 import pydub
 import streamlit as st
+
 from PIL import Image
 
 from riffusion.datatypes import InferenceInput, PromptInput
 from riffusion.spectrogram_params import SpectrogramParams
 from riffusion.streamlit import util as streamlit_util
-
 
 def render_interpolation() -> None:
     st.set_page_config(layout="wide", page_icon="🎸")

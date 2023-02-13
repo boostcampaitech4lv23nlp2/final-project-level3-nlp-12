@@ -6,7 +6,6 @@ from riffusion.cli import sample_clips
 
 from .test_case import TestCase
 
-
 class SampleClipsTest(TestCase):
     """
     Test riffusion.cli sample-clips

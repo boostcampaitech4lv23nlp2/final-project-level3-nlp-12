@@ -7,12 +7,12 @@ from pathlib import Path
 import argh
 import numpy as np
 import pydub
+
 from PIL import Image
 
 from riffusion.spectrogram_image_converter import SpectrogramImageConverter
 from riffusion.spectrogram_params import SpectrogramParams
 from riffusion.util import image_util
-
 
 @argh.arg("--step-size-ms", help="Duration of one pixel in the X axis of the spectrogram image")
 @argh.arg("--num-frequencies", help="Number of Y axes in the spectrogram image")
@@ -36,7 +36,7 @@ def audio_to_image(
     segment = pydub.AudioSegment.from_file(audio)
 
     params = SpectrogramParams(
-        #sample_rate=8000,
+        # sample_rate=8000,
         sample_rate=segment.frame_rate,
         stereo=stereo,
         window_duration_ms=window_duration_ms,

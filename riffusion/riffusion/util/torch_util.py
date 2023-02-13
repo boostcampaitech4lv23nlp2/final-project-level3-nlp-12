@@ -3,7 +3,6 @@ import warnings
 import numpy as np
 import torch
 
-
 def check_device(device: str, backup: str = "cpu") -> str:
     """
     Check that the device is valid and available. If not,

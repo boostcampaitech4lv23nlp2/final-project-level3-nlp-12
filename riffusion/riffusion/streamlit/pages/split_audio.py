@@ -6,7 +6,6 @@ import streamlit as st
 from riffusion.audio_splitter import split_audio
 from riffusion.streamlit import util as streamlit_util
 
-
 def render_split_audio() -> None:
     st.set_page_config(layout="wide", page_icon="🎸")
 

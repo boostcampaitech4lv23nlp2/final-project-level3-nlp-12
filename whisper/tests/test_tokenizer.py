@@ -1,6 +1,5 @@
 from whisper.tokenizer import get_tokenizer
 
-
 def test_tokenizer():
     gpt2_tokenizer = get_tokenizer(multilingual=False)
     multilingual_tokenizer = get_tokenizer(multilingual=True)

@@ -4,11 +4,11 @@ import typing as T
 import numpy as np
 import pydub
 import streamlit as st
+
 from PIL import Image
 
 from riffusion.spectrogram_params import SpectrogramParams
 from riffusion.streamlit import util as streamlit_util
-
 
 def render_audio_to_audio() -> None:
     st.set_page_config(layout="wide", page_icon="🎸")
@@ -104,7 +104,6 @@ def render_audio_to_audio() -> None:
         )
 
     with st.form("Conversion Params"):
-
         prompt = st.text_input("Text Prompt")
         negative_prompt = st.text_input("Negative Prompt")
 

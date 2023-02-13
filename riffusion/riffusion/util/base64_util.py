@@ -1,7 +1,6 @@
 import base64
 import io
 
-
 def encode(buffer: io.BytesIO) -> str:
     """
     Encode the given buffer as base64.

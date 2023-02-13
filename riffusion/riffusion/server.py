@@ -8,11 +8,13 @@ import json
 import logging
 import time
 import typing as T
+
 from pathlib import Path
 
 import dacite
 import flask
 import PIL
+
 from flask_cors import CORS
 
 from riffusion.datatypes import InferenceInput, InferenceOutput

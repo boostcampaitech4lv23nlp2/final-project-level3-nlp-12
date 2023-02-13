@@ -4,8 +4,8 @@ Data model for the riffusion API.
 from __future__ import annotations
 
 import typing as T
-from dataclasses import dataclass
 
+from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class PromptInput:

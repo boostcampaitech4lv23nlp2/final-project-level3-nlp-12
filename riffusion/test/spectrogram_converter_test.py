@@ -9,7 +9,6 @@ from riffusion.util import fft_util
 
 from .test_case import TestCase
 
-
 class SpectrogramConverterTest(TestCase):
     """
     Test going from audio to spectrogram to audio, without converting to

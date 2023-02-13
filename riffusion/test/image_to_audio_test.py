@@ -6,7 +6,6 @@ from riffusion.cli import image_to_audio
 
 from .test_case import TestCase
 
-
 class ImageToAudioTest(TestCase):
     """
     Test riffusion.cli image-to-audio
