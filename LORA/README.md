@@ -11,7 +11,7 @@ LoRA란 Low-Rank Adaption of Large Language Models로 Large Language Model의 �
 2. Compute requirements are lower. We could create a full fine-tuned model in a 2080 Ti with 11 GB of VRAM!
 3. Trained weights are much, much smaller : Because the original model is frozen and we inject new layers to be trained, we can save the weights for the new layers as a single file that weighs in at ~3 MB in size. This is about one thousand times smaller than the original size of the UNet model!
 <br>
-발췌: [허깅페이스 블로그](https://huggingface.co/blog/lora)
+발췌: https://huggingface.co/blog/lora
 
 # 2. Riffusion with LoRA
 Stable Diffusion 모델을 base로 하는 Riffusion 모델에도 이를 적용할 수있습니다.
@@ -21,7 +21,7 @@ Stable Diffusion 모델을 base로 하는 Riffusion 모델에도 이를 적용�
 ~~~
 해당 shell script를 통해 Riffusion Checkpoint를 저희가 만든 Dataset으로 학습할 수 있습니다.
 <br>
-이를 통해 만들어진 **"pytorch_lora_weights.bin"** 를 RiffusionPipeline의 unet에 붙임으로 학습된 LoRA를 사용할 수 있습니다.
+이를 통해 만들어진 **"pytorch_lora_weights.bin"** 를 RiffusionPipeline의 unet에 붙임으로써 학습된 LoRA를 사용할 수 있습니다.
 ~~~python
 pipeline.unet.load_attn_procs("pytorch_lora_weights.bin")
 model = pipeline.to(device)
