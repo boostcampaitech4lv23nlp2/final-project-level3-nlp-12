@@ -122,7 +122,7 @@ class RiffusionPipeline(DiffusionPipeline):
             if traced_unet is not None:
                 pipeline.unet = traced_unet
 
-        pipeline.unet.load_attn_procs("/opt/ml/final/LORA/output/pytorch_lora_weights.bin")
+        pipeline.unet.load_attn_procs("pytorch_lora_weights.bin")
         model = pipeline.to(device)
 
         return model
