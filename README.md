@@ -127,6 +127,7 @@ weird
 
 ### **Environment**
 ```
+Ubuntu 18.04.5 LTS
 Python Version 3.9
 ```
 
