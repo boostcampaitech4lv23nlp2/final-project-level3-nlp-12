@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-front
+  labels:
+    run: my-front
+spec:
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 8282
+  selector: # 아래 label 을 가진 Pod 을 매핑하는 부분입니다.
+    app: fast 
