@@ -17,7 +17,8 @@
 |       ├── package-lock.json
 |       ├── package.json
 |       ├── public
-|       └── src
+|       ├── src
+|       └── Dockerfile.             - Front Dockerfile for K8s deployment
 ├── kubernetes
 |   ├── kubeflow
 |   |   └── make_pipeline.py        - Kubeflow Pipeline 작성 코드
@@ -29,6 +30,7 @@
 |       └── pod_pvc.yaml            - Kubeflow pvc 접근용 pod
 └── serving
     ├── README.md
+    ├── Dockerfile                  - Local Server Dockerfile for K8s deployment
     └── app
         ├── first_stage             - STT와 Sentiment Clssifier 서버
         ├── local_main              - local API 서버, Kubeflow
