@@ -174,6 +174,6 @@ $pip install git+https://github.com/huggingface/diffusers
 
 #### Open Source
 
-- huggingface/diffusers [[CODE]](https://github.com/huggingface/diffusers)
-- Riffusion [[CODE]]([https://github.com/flagai-open/flagai](https://github.com/riffusion/riffusion))
+- huggingface/diffusers [[Link]](https://github.com/huggingface/diffusers)
+- riffusion/riffusion [[Link]](https://github.com/riffusion/riffusion)
 
