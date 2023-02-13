@@ -109,18 +109,18 @@ weird
 <img src="https://user-images.githubusercontent.com/100463560/218310472-c38abc7b-98f8-4908-8b7b-78c77e29d5c2.png"  width="80%"/>
 </p>
 
-### [ > > OPS README](https://github.com/boostcampaitech4lv23nlp2/final-project-level3-nlp-12/tree/main/OPS)
+### [ > > MLOPS README](https://github.com/boostcampaitech4lv23nlp2/final-project-level3-nlp-12/tree/main/OPS)
 
 
 # 6. How to Use
 ### **File Directory**
 ```
 .
-|-- LORA
+|-- LoRA
 |   |-- README.md
 |   |-- text_to_image_lora.py
 |   `-- train.sh
-|-- OPS
+|-- MLOPS
 |   |-- README.md
 |   |-- front
 |   |-- kubernetes
