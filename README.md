@@ -62,6 +62,7 @@ boostcamp 4th NLP Final Project :
 
 **Sentiment Classifier**
 - 전체 텍스트 내용을 알 수 있으면서 내용의 특징을 살릴 수 있도록, 텍스트 구문별로 감성 분류를 시도함.
+  > `https://huggingface.co/j-hartmann/emotion-english-distilroberta-base`
 - 전체 텍스트에 대해 구문별로 감성 분석하여 행복,슬픔,역겨움,분노,놀람,두려움, 중립 7가지 감정으로 분류함.
 - 구문별 감성분류 후, 감정 유지기간이 임계값 보다 낮은 경우 해당 감정을 무시했으며, 무시된 감정의 앞뒤로 같은 감정일 경우 그 감정들과 이어진다고 판단하여 대체하는 후처리 과정을 진행.
 - 그 결과 타임라인에 따라 안정된 감정을 파악할 수 있었고, 따라서 Sentiment Classifier 방식을 채택함.
