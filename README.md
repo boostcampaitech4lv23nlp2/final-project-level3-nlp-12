@@ -21,10 +21,19 @@ boostcamp 4th NLP Final Project :
 # 1. Team
 <div align="center">
 
-|<img src='https://user-images.githubusercontent.com/100463560/207283821-75407391-eb7a-41c1-a520-e26a7fb805a1.jpg' height=120 width=120></img><br>김건우</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&logoColor=white&link=https://github.com/gwkim22/"/>|<img src='https://user-images.githubusercontent.com/100463560/207283858-cc89f5ba-b5fb-4c61-94e7-4112aca1857c.jpg' height=120 width=120></img><br>백단익</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&link=https://github.com/ask2DK/"/>|<img src='https://user-images.githubusercontent.com/100463560/207284092-534792f0-6315-4fb1-8e54-f041d55d458e.jpg' height=120 width=120></img><br>손용찬</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&link=https://github.com/Sdragonc/"/>|<img src='https://user-images.githubusercontent.com/100463560/207284128-7603761a-8c26-46e3-bbe7-ca46f4cadfcb.jpg' height=120 width=120></img><br>이재덕</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&link=https://github.com/JdRion/"/>|<img src='https://user-images.githubusercontent.com/100463560/207284181-1bd26ed3-cbf2-4aae-9ba2-8c0f9162f091.jpg' height=120 width=120></img><br>정석희</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&link=https://github.com/seokhee516/"/>
-|:-:|:-:|:-:|:-:|:-:|
-
+김건우|백단익|손용찬|이재덕|정석희|
+:-:|:-:|:-:|:-:|:-:
+<img src='https://user-images.githubusercontent.com/86893209/218123050-3854db13-1a5e-4305-a829-0500c9c8d740.jpg' height=80 width=80px></img>|<img src='https://user-images.githubusercontent.com/86893209/218123059-a2313e2b-fbee-4950-8678-cc82ad8b465e.jpg' height=100 width=100px></img>|<img src='https://user-images.githubusercontent.com/86893209/218123700-94618d65-cabc-4d3e-8646-cf1ecf4a4cfe.png' height=100 width=100px></img>|<img src='https://user-images.githubusercontent.com/86893209/218123046-a3151010-8ea6-41ff-9188-fd1ca5df1c37.jpg' height=100 width=100px></img>|<img src='https://user-images.githubusercontent.com/86893209/218123075-2bc57aef-7d6c-47b3-acef-01983a54091d.jpg' height=100 width=100px></img>|
+[Github](https://github.com/gwkim22)|[Github](https://github.com/ask2DK)|[Github](https://github.com/Sdragonc)|[Github](https://github.com/JdRion)|[Github](https://github.com/seokhee516)
 </div>
+
+### Contribution
+`김건우` : 모델 학습, 파이프라인 설계, Riffusion <br>
+`백단익` : 모델 설계 및 분석, whisper <br>
+`손용찬` : 모델 설계 및 분석, 감성분류 <br>
+`이재덕` : Frontend, Backend, K8s, 아키텍처 설계, Riffusion <br>
+`정석희` : Backend, K8s, 아키텍처 설계
+
 
 # 2. About
 ### **기획의도**
