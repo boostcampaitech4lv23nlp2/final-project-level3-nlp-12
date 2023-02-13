@@ -116,13 +116,29 @@ weird
 # 6. How to Use
 ### **File Directory**
 ```
-./model
-|-- _interpolation.py
-|-- _sum_by_sent.py
-|-- oneway_pipeline.py
-|-- pre_to_stt.py
-|-- stt_to_rif.py
-|-- utils.py
+.
+|-- LORA
+|   |-- README.md
+|   |-- text_to_image_lora.py
+|   `-- train.sh
+|-- OPS
+|   |-- README.md
+|   |-- front
+|   |-- kubernetes
+|   `-- serving
+|-- dataset
+|-- model
+|   |-- _interpolation.py
+|   |-- _sum_by_sent.py
+|   |-- oneway_pipeline.py
+|   |-- pre_to_stt.py
+|   |-- pretrained_models
+|   |-- stt_to_rif.py
+|   `-- utils.py
+|-- project_requirements.txt
+|-- riffusion
+|-- whisper
+`-- README.md
 ```
 
 ### **Environment**
