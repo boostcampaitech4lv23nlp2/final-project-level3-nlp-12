@@ -4,7 +4,7 @@
  
 <div align=center>
   
-### [Presentation(video)](https://www.youtube.com/watch?v=GT0m3ldshis)| [Demo(video)](https://youtu.be/CHE8jlSvEdQ)  | [Github](https://github.com/boostcampaitech4lv23nlp2/final-project-level3-nlp-12) | [Notion](https://www.notion.so/boostcampait/NLP-12-ET-BGM-54aac8e22a8b40dc9f03e904486702e1) 
+### [Presentation(video)](https://www.youtube.com/watch?v=GT0m3ldshis)| [Demo(video)](https://youtu.be/CHE8jlSvEdQ)  | [Notion](https://www.notion.so/boostcampait/NLP-12-ET-BGM-54aac8e22a8b40dc9f03e904486702e1) 
 
 ---
 
@@ -12,9 +12,7 @@
 boostcamp 4th NLP Final Project :  
 **영상 콘텐츠 맞춤형 BGM 생성**
   
-  [![](https://camo.githubusercontent.com/44916b8f3c58815f4f7b5ad65f3487c593b0519b2deba925d242107d10df9e9c/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f707974686f6e2d3337373641423f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d7768697465)](https://camo.githubusercontent.com/44916b8f3c58815f4f7b5ad65f3487c593b0519b2deba925d242107d10df9e9c/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f707974686f6e2d3337373641423f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d7768697465)  [![](https://camo.githubusercontent.com/4837ae7c2bc54e02b707b9bdc6a1a02c00d5e8d019001c4fd81ca7746539fd5a/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f5079546f7263682d4545344332433f7374796c653d666c6174266c6f676f3d5079546f726368266c6f676f436f6c6f723d7768697465)](https://camo.githubusercontent.com/4837ae7c2bc54e02b707b9bdc6a1a02c00d5e8d019001c4fd81ca7746539fd5a/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f5079546f7263682d4545344332433f7374796c653d666c6174266c6f676f3d5079546f726368266c6f676f436f6c6f723d7768697465)
-
- [![](https://camo.githubusercontent.com/d53bd5ccff8850c397f9140d39bd626861150abb38408cd4c6b28e1359eacd66/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f466173744150492d3030393638383f7374796c653d666c6174266c6f676f3d46617374415049266c6f676f436f6c6f723d7768697465)](https://camo.githubusercontent.com/d53bd5ccff8850c397f9140d39bd626861150abb38408cd4c6b28e1359eacd66/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f466173744150492d3030393638383f7374796c653d666c6174266c6f676f3d46617374415049266c6f676f436f6c6f723d7768697465)
+  [![](https://camo.githubusercontent.com/44916b8f3c58815f4f7b5ad65f3487c593b0519b2deba925d242107d10df9e9c/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f707974686f6e2d3337373641423f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d7768697465)](https://camo.githubusercontent.com/44916b8f3c58815f4f7b5ad65f3487c593b0519b2deba925d242107d10df9e9c/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f707974686f6e2d3337373641423f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d7768697465)  [![](https://camo.githubusercontent.com/4837ae7c2bc54e02b707b9bdc6a1a02c00d5e8d019001c4fd81ca7746539fd5a/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f5079546f7263682d4545344332433f7374796c653d666c6174266c6f676f3d5079546f726368266c6f676f436f6c6f723d7768697465)](https://camo.githubusercontent.com/4837ae7c2bc54e02b707b9bdc6a1a02c00d5e8d019001c4fd81ca7746539fd5a/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f5079546f7263682d4545344332433f7374796c653d666c6174266c6f676f3d5079546f726368266c6f676f436f6c6f723d7768697465) [![](https://camo.githubusercontent.com/d53bd5ccff8850c397f9140d39bd626861150abb38408cd4c6b28e1359eacd66/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f466173744150492d3030393638383f7374796c653d666c6174266c6f676f3d46617374415049266c6f676f436f6c6f723d7768697465)](https://camo.githubusercontent.com/d53bd5ccff8850c397f9140d39bd626861150abb38408cd4c6b28e1359eacd66/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f466173744150492d3030393638383f7374796c653d666c6174266c6f676f3d46617374415049266c6f676f436f6c6f723d7768697465) <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=plastic=appveyor&logo=Kubernetes&logoColor=white"/></a> <img src="https://img.shields.io/badge/Docker-2496ED?style=plastic=appveyor&&logo=Docker&logoColor=white"/></a> <img src="https://img.shields.io/badge/react-444444?style=plastic=appveyor&logo=react&logoColor=white">
 
 </div>
 
@@ -32,8 +30,8 @@ boostcamp 4th NLP Final Project :
 `김건우` : 모델 학습, 파이프라인 설계, Riffusion <br>
 `백단익` : 모델 설계 및 분석, whisper <br>
 `손용찬` : 모델 설계 및 분석, 감성분류 <br>
-`이재덕` : Frontend, Backend, K8s, 아키텍처 설계, Riffusion <br>
-`정석희` : Backend, K8s, 아키텍처 설계
+`이재덕` : Frontend, Backend, 아키텍처, Riffusion <br>
+`정석희` : Backend, 아키텍처
 
 
 # 2. About
@@ -63,6 +61,7 @@ boostcamp 4th NLP Final Project :
 **Sentiment Classifier**
 - 전체 텍스트 내용을 알 수 있으면서 내용의 특징을 살릴 수 있도록, 텍스트 구문별로 감성 분류를 시도함.
 - 전체 텍스트에 대해 구문별로 감성 분석하여 행복,슬픔,역겨움,분노,놀람,두려움, 중립 7가지 감정으로 분류함.
+  > `https://huggingface.co/j-hartmann/emotion-english-distilroberta-base`
 - 구문별 감성분류 후, 감정 유지기간이 임계값 보다 낮은 경우 해당 감정을 무시했으며, 무시된 감정의 앞뒤로 같은 감정일 경우 그 감정들과 이어진다고 판단하여 대체하는 후처리 과정을 진행.
 - 그 결과 타임라인에 따라 안정된 감정을 파악할 수 있었고, 따라서 Sentiment Classifier 방식을 채택함.
 
@@ -116,17 +115,36 @@ weird
 # 6. How to Use
 ### **File Directory**
 ```
-./model
-|-- _interpolation.py
-|-- _sum_by_sent.py
-|-- oneway_pipeline.py
-|-- pre_to_stt.py
-|-- stt_to_rif.py
-|-- utils.py
+.
+|-- LORA
+|   |-- README.md
+|   |-- text_to_image_lora.py
+|   `-- train.sh
+|-- OPS
+|   |-- README.md
+|   |-- front
+|   |-- kubernetes
+|   `-- serving
+|-- dataset
+|-- model
+|   |-- _interpolation.py
+|   |-- _sum_by_sent.py
+|   |-- oneway_pipeline.py
+|   |-- pre_to_stt.py
+|   |-- pretrained_models
+|   |-- stt_to_rif.py
+|   `-- utils.py
+|-- project_requirements.txt
+|-- riffusion
+|-- whisper
+`-- README.md
 ```
 
 ### **Environment**
 ```
+Ubuntu 18.04.5 LTS
+CPU : Intel(R) Xeon(R) Gold 5120 CPU @ 2.20GHz x 8
+GPU : Tesla V100-PCIE-32GB
 Python Version 3.9
 ```
 
@@ -143,3 +161,17 @@ $apt-get install -y libsndfile1-dev
 $pip install git+https://github.com/openai/whisper.git
 $pip install git+https://github.com/huggingface/diffusers
 ```
+<br>
+
+### Reference
+
+#### Paper
+
+- whisper: Radford, A., Kim, J. W., Xu, T., Brockman, G., McLeavey, C., & Sutskever, I. (2022). Robust speech recognition via large-scale weak supervision. arXiv preprint arXiv:2212.04356.
+- LoRA: Hu, E. J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., ... & Chen, W. (2021). Lora: Low-rank adaptation of large language models. arXiv preprint arXiv:2106.09685.
+
+#### Open Source
+
+- huggingface/diffusers [[Link]](https://github.com/huggingface/diffusers)
+- riffusion/riffusion [[Link]](https://github.com/riffusion/riffusion)
+
