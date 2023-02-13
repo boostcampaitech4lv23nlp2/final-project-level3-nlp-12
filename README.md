@@ -20,18 +20,13 @@ boostcamp 4th NLP Final Project :
 
 
 # 1. Team
+
 <div align="center">
 
-김건우|백단익|손용찬|이재덕|정석희|
+<img src='https://user-images.githubusercontent.com/86893209/218123050-3854db13-1a5e-4305-a829-0500c9c8d740.jpg' height=120 width=120></img><br>김건우</br><a href="https://github.com/gwkim22"><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&logoColor=white"/>|<img src='https://user-images.githubusercontent.com/86893209/218123059-a2313e2b-fbee-4950-8678-cc82ad8b465e.jpg' height=120 width=120></img><br>백단익</br><a href="https://github.com/ask2DK"><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github"/>|<img src='https://user-images.githubusercontent.com/86893209/218123700-94618d65-cabc-4d3e-8646-cf1ecf4a4cfe.png' height=120 width=120></img><br>손용찬</br><a href="https://github.com/Sdragonc"><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github"/>|<img src='https://user-images.githubusercontent.com/86893209/218123046-a3151010-8ea6-41ff-9188-fd1ca5df1c37.jpg' height=120 width=120></img><br>이재덕</br><a href="https://github.com/JdRion"><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github"/>|<img src='https://user-images.githubusercontent.com/86893209/218123075-2bc57aef-7d6c-47b3-acef-01983a54091d.jpg' height=120 width=120></img><br>정석희</br><a href="https://github.com/seokhee516"><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github"/>
 :-:|:-:|:-:|:-:|:-:
-<img src='https://user-images.githubusercontent.com/86893209/218123050-3854db13-1a5e-4305-a829-0500c9c8d740.jpg' height=120 width=120px></img>|<img src='https://user-images.githubusercontent.com/86893209/218123059-a2313e2b-fbee-4950-8678-cc82ad8b465e.jpg' height=120 width=120px></img>|<img src='https://user-images.githubusercontent.com/86893209/218123700-94618d65-cabc-4d3e-8646-cf1ecf4a4cfe.png' height=120 width=120px></img>|<img src='https://user-images.githubusercontent.com/86893209/218123046-a3151010-8ea6-41ff-9188-fd1ca5df1c37.jpg' height=120 width=120px></img>|<img src='https://user-images.githubusercontent.com/86893209/218123075-2bc57aef-7d6c-47b3-acef-01983a54091d.jpg' height=120 width=120px></img>|
-[Github](https://github.com/gwkim22)|[Github](https://github.com/ask2DK)|[Github](https://github.com/Sdragonc)|[Github](https://github.com/JdRion)|[Github](https://github.com/seokhee516)
+ 
 </div>
-
-
-<img src='https://user-images.githubusercontent.com/86893209/218123050-3854db13-1a5e-4305-a829-0500c9c8d740.jpg' height=120 width=120></img><br>김건우</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&logoColor=white&link=https://github.com/gwkim22"/>|<img src='https://user-images.githubusercontent.com/86893209/218123059-a2313e2b-fbee-4950-8678-cc82ad8b465e.jpg' height=120 width=120></img><br>백단익</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&link=https://github.com/ask2DK"/>|<img src='https://user-images.githubusercontent.com/86893209/218123700-94618d65-cabc-4d3e-8646-cf1ecf4a4cfe.png' height=120 width=120></img><br>손용찬</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&link=https://github.com/Sdragonc"/>|<img src='https://user-images.githubusercontent.com/86893209/218123046-a3151010-8ea6-41ff-9188-fd1ca5df1c37.jpg' height=120 width=120></img><br>이재덕</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&link=https://github.com/JdRion"/>|<img src='https://user-images.githubusercontent.com/86893209/218123075-2bc57aef-7d6c-47b3-acef-01983a54091d.jpg' height=120 width=120></img><br>정석희</br><img src="https://img.shields.io/badge/Github-181717?style=flat&logo=Github&link=https://github.com/seokhee516"/>
-:-:|:-:|:-:|:-:|:-:
-
 
 ### Contribution
 `김건우` : 모델 학습, 파이프라인 설계, Riffusion <br>
