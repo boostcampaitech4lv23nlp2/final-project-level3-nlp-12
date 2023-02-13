@@ -4,7 +4,7 @@
  
 <div align=center>
   
-### [Presentation(video)](https://www.youtube.com/watch?v=GT0m3ldshis)| [Demo(video)](https://youtu.be/CHE8jlSvEdQ)  | [Github](https://github.com/boostcampaitech4lv23nlp2/final-project-level3-nlp-12) | [Notion](https://www.notion.so/boostcampait/NLP-12-ET-BGM-54aac8e22a8b40dc9f03e904486702e1) 
+### [Presentation(video)](https://www.youtube.com/watch?v=GT0m3ldshis)| [Demo(video)](https://youtu.be/CHE8jlSvEdQ)  | [Notion](https://www.notion.so/boostcampait/NLP-12-ET-BGM-54aac8e22a8b40dc9f03e904486702e1) 
 
 ---
 
