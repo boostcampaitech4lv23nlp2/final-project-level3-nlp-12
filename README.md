@@ -163,3 +163,17 @@ $apt-get install -y libsndfile1-dev
 $pip install git+https://github.com/openai/whisper.git
 $pip install git+https://github.com/huggingface/diffusers
 ```
+<br>
+
+### Reference
+
+#### Paper
+
+- whisper: Radford, A., Kim, J. W., Xu, T., Brockman, G., McLeavey, C., & Sutskever, I. (2022). Robust speech recognition via large-scale weak supervision. arXiv preprint arXiv:2212.04356.
+- LoRA: Hu, E. J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., ... & Chen, W. (2021). Lora: Low-rank adaptation of large language models. arXiv preprint arXiv:2106.09685.
+
+#### Open Source
+
+- huggingface/diffusers [[CODE]](https://github.com/huggingface/diffusers)
+- Riffusion [[CODE]]([https://github.com/flagai-open/flagai](https://github.com/riffusion/riffusion))
+
