@@ -18,7 +18,7 @@
 |       ├── package.json
 |       ├── public
 |       ├── src
-|       └── Dockerfile.             - Front Dockerfile for K8s deployment
+|       └── Dockerfile              - Front Dockerfile for K8s deployment
 ├── kubernetes
 |   ├── kubeflow
 |   |   └── make_pipeline.py        - Kubeflow Pipeline 작성 코드
