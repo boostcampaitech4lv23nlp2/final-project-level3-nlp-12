@@ -1,4 +1,12 @@
-# 1. LoRA
+# 1. 저장소 구조
+~~~
+.
+|-- README.md
+|-- text_to_image_lora.py       - Diffusion with LoRA 학습 코드
+`-- train.sh                    - 학습 코드를 실행하는 Shell-script
+~~~
+
+# 2. LoRA
 LoRA란 Low-Rank Adaption of Large Language Models로 Large Language Model의 효율적인 Fine Tuning을 위해 고안된 방법론입니다.
 <br>
 처음 LoRA는 LLM을 위해 고안되었지만 다양한 분야에 적용될 수 있음이 확인되었습니다. 
@@ -13,7 +21,7 @@ LoRA란 Low-Rank Adaption of Large Language Models로 Large Language Model의 �
 <br>
 발췌: https://huggingface.co/blog/lora
 
-# 2. Riffusion with LoRA
+# 3. Riffusion with LoRA
 Stable Diffusion 모델을 base로 하는 Riffusion 모델에도 이를 적용할 수있습니다.
 ~~~sh
 # Train Riffusion with LoRA
