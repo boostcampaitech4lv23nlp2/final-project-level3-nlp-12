@@ -32,7 +32,7 @@
     ├── README.md
     ├── Dockerfile                  - Local Server Dockerfile for K8s deployment
     └── app
-        ├── first_stage             - STT와 Sentiment Clssifier 서버
+        ├── first_stage             - STT와 Sentiment Classifier 서버
         ├── local_main              - local API 서버, Kubeflow
         └── second_stage            - Riffusion 서버
 ```
