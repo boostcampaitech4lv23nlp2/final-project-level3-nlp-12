@@ -11,7 +11,7 @@ def first_stage(cnt: int) -> str:
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect("101.101.209.53", username="root", port="2235", key_filename="/var/data/jd_key", password="1234")
+    ssh.connect("", username="root", port="", key_filename="/var/data/jd_key", password="")
 
     stdin, stdout, stderr = ssh.exec_command(
         f"cd /opt/ml/final/model && conda activate JD && python stt_sent_test.py --input_file /opt/ml/final/serving/input/video_{cnt}.mp4"
