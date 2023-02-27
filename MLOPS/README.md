@@ -130,4 +130,4 @@ python -m {directory name}
 # 5. FRONTEND
 ## 5.1 작동 흐름
 * Axios를 통해 입력된 동영상 POST -> 로컬 서버에서 sequence key 반환 -> 해당 키를 통해 BGM이 합쳐진 동영상 GET
-* special thanks to @suyeon1218
+* special thanks to [@suyeon1218](https://github.com/suyeon1218?tab=overview&from=2023-01-01&to=2023-01-31)
