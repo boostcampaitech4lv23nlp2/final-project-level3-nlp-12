@@ -3,6 +3,7 @@
 2. [아키텍처 설계 의도](#2-아키텍처-설계-의도)
 3. [Kubernetes(K8s)](#3-kubernetesk8s)
 4. [BACKEND](#4-backend)
+5. [FRONTEND](#5-frontend)
 
 # 1. Intro
 ![architecture](https://user-images.githubusercontent.com/113088158/218088271-670172ad-b43e-4f20-826c-e9cb15000ca2.png)
