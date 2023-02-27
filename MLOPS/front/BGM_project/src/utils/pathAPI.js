@@ -1,18 +1,18 @@
 import axios from "axios";
 
 const UPLOAD_URL = [
-  "http://101.101.209.53:30001/upload",
-  "http://118.67.133.154:30002/upload",
-  "http://27.96.134.124:30002/upload",
-  "http://118.67.142.47:30002/upload",
-  "http://118.67.133.198:30002/upload",
+  "http://STS,SC/upload",
+  "http://RF1/upload",
+  "http://RF2/upload",
+  "http://RF3/upload",
+  "http://RF4/upload",
 ];
 
 const PATH_URL = [
-  "http://118.67.133.154:30002/file/",
-  "http://27.96.134.124:30002/file/",
-  "http://118.67.142.47:30002/file/",
-  "http://118.67.133.198:30002/file/",
+  "http://RF1/file/",
+  "http://RF2/file/",
+  "http://RF3/file/",
+  "http://RF4/file/",
 ];
 
 const postUploadAPI = async (url, formData) => {
@@ -65,7 +65,7 @@ export const uploadForm = async (formData) => {
 
 export const pathAPI = async () => {
   try {
-    const res = axios.get("http://219.255.27.88:8383/signal");
+    const res = axios.get("http://Local K8s/signal");
     return res;
   } catch (e) {
     console.log(e);
