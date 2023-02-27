@@ -126,3 +126,7 @@ python -m {directory name}
 ```
 ## 4.2. 작동 방식
 * sequence key를 통해 데이터 식별
+
+# 5. FRONTEND
+## 5.1 작동 흐름
+* Axios를 통해 입력된 동영상 POST -> 로컬 서버에서 sequence key 반환 -> 해당 키를 통해 BGM이 합쳐진 동영상 GET
