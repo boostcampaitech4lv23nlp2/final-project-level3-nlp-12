@@ -5,7 +5,7 @@ sys.path.append('/opt/ml/final/')
 import os
 from riffusion.cli import audio_to_image
 from pydub import AudioSegment
-from model import downsampling
+from model import utils
 import numpy as np
 import pathlib
 
@@ -20,7 +20,7 @@ for sent in sent_list:
         n_sent_dir = sent[:2]
 
     for file in pathlib.Path(sent_dir).iterdir():
-        downsampling.down_sample(file, os.path.join(ori_path, f'{n_sent_dir}/{file.name}'), 22050, 8000)
+        utils.sample_rate_convert(file, os.path.join(ori_path, f'{n_sent_dir}/{file.name}'), 22050, 8000)
         audio_segment = AudioSegment.from_file(os.path.join(ori_path, f'{n_sent_dir}/{file.name}'))
         duration_ms = 10 * 1000
         segment_duration_ms = int(audio_segment.duration_seconds * 1000)
